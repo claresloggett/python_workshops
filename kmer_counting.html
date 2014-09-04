@@ -1680,7 +1680,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Week-4-lab-programming-tutorial:-k-mer-counting">Week 4 lab programming tutorial: k-mer counting<a class="anchor-link" href="#Week-4-lab-programming-tutorial:-k-mer-counting">&#182;</a></h1>
+<h1 id="Introductory-Python-II:-k-mer-counting">Introductory Python II: k-mer counting<a class="anchor-link" href="#Introductory-Python-II:-k-mer-counting">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -1697,25 +1697,6 @@ div#notebook {
 <li>find the suffix or prefix of a k-mer (this is needed to find overlaps)</li>
 </ul>
 <p>In order to do these things, we&#39;ll learn about string slicing, and about two new Python data types: sets and dictionaries. Like lists, sets and dictionaries are used for building collections of things, but they have some different features.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Setup">Setup<a class="anchor-link" href="#Setup">&#182;</a></h2>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For this tutorial you will probably want to open an interactive Python environment, to play around and to try doing the Challenges below. A good option is to use your Research Cloud instance. You can use the setup instructions from the Week 2 Introduction to Programming workshop, which you can find <a href="http://claresloggett.github.io/hammingdist_workshop/novice/python/setup_python.html">here</a>.</p>
 </div>
 </div>
 </div>
@@ -1759,7 +1740,7 @@ HANT
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In the <a href="http://claresloggett.github.io/hammingdist_workshop/">introductory programming workshop</a> you were introduced to string indexing, using square brackets <code>[]</code>.</p>
+<p>In the <a href="hammingdist.html">first workshop</a> you were introduced to string indexing, using square brackets <code>[]</code>.</p>
 </div>
 </div>
 </div>
@@ -3467,9 +3448,9 @@ In&nbsp;[39]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In fact, dictionaries (and sets) are an implementation of <strong>hash tables</strong>, mentioned in lectures, and work by carrying out a hash function on the keys to decide where to store them in the computer&#39;s memory. This means that dictionaries are very fast at retrieving information. Even if you have a very large dictionary, finding an item in it using a key takes a roughly constant amount of time that does not grow with the size of the dictionary - the performance of the algorithm is O(1). </p>
+<p>In fact, dictionaries (and sets) are an implementation of <strong>hash tables</strong>, and work by carrying out a hash function on the keys to decide where to store them in the computer&#39;s memory. This means that dictionaries are very fast at retrieving information. Even if you have a very large dictionary, finding an item in it using a key takes a roughly constant amount of time that does not grow with the size of the dictionary - the performance of the algorithm is O(1). </p>
 <p>&quot;Exact string matching&quot; is extremely fast and simple since we just need to test for equality, not carry out an alignment. If we store our known k-mers as keys of a dictionary, and we are given a new k-mer which we would like to match against them, then we also can search for matches across a huge dataset of known k-mers in O(1) time simply by looking up the key.  </p>
-<p>Performing <em>inexact</em> string matching can&#39;t be done using a hash table, since the hash function only gives the same result if the key is exactly the same. For approximate string matching, we need some kind of alignment algorithm. Not only is this slower for each string, we may need to carry it out on a large number of strings to find a match. This is why, when there are many reads, a hash-based algorithm like De Bruijn assembly is faster than an alignment-based assembly algorithm. It&#39;s also why some alignment algorithms use <em>seeds</em>, which we&#39;ll cover in the Week 5 lecture.</p>
+<p>Performing <em>inexact</em> string matching can&#39;t be done using a hash table, since the hash function only gives the same result if the key is exactly the same. For approximate string matching, we need some kind of alignment algorithm. Not only is this slower for each string, we may need to carry it out on a large number of strings to find a match. This is why, when there are many reads, a hash-based algorithm like De Bruijn assembly is faster than an alignment-based assembly algorithm. It&#39;s also why some alignment algorithms use <em>seeds</em>.</p>
 </div>
 </div>
 </div>
