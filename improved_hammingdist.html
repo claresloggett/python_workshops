@@ -1680,7 +1680,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Python-fundamentals">Python fundamentals<a class="anchor-link" href="#Python-fundamentals">&#182;</a></h1>
+<h1 id="Pythonic-python-for-bioinformatics">Pythonic python for bioinformatics<a class="anchor-link" href="#Pythonic-python-for-bioinformatics">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -1690,7 +1690,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this section we&#39;ll run through the most important Python data structures, and some fundamental programming syntax like loops, conditionals and function definitions. This content will probably be covered too quickly if you are really new to programming - you might want to try the <a href="index.html">introductory workshops</a> instead, which introduce most of the same concepts, with more explanation.</p>
+<p>This workshop is designed to introduce Python to bioinformaticians. It follows on from the introductory workshops on Python programming. In particular, we&#39;ll build on our solution to the <a href="hammingdist.html">Hamming distance workshop</a>, and use the various language features we learn to improve our code.</p>
 </div>
 </div>
 </div>
@@ -1730,7 +1730,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In this workshop, we&#39;ll use Python 2. However, we&#39;ll use Python 3-style print statements and division operators, which will make our code more sensible, and pretty easy to move to Python 3 in the future. </p>
-<p>You don&#39;t need to worry about the details of this right now, but, before running anything else, run the following statement:</p>
+<p>You don&#39;t need to worry about the details of this right now, but if you have not done so already, then before running anything else, run the following statement:</p>
 </div>
 </div>
 </div>
@@ -1754,7 +1754,7 @@ In&nbsp;[1]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Data-types-and-structures">Data types and structures<a class="anchor-link" href="#Data-types-and-structures">&#182;</a></h2>
+<h2 id="Hamming-distance">Hamming distance<a class="anchor-link" href="#Hamming-distance">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1764,7 +1764,56 @@ In&nbsp;[1]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Values can be assigned to variables in Python like so:</p>
+<p>In this workshop, we&#39;ll use our solution to the novice workshop on Hamming Distance as an example. </p>
+<p>The Hamming distance between two strings is the number of positions at which they have different characters.</p>
+<p>For instance, compare these strings:</p>
+<pre><code>GATTACA
+GACTATA
+</code></pre><p>They are different at two locations:</p>
+<pre><code>GATTACA
+  |  |
+GACTATA
+</code></pre><p>So the Hamming distance is 2.</p>
+<p>Hamming distance is the simplest edit distance algorithm for string alignment. It tells us the edit distance between two strings if we&#39;re only allowed to make substitutions - no insertions or deletions.</p>
+<p>We will consider the Hamming distance to be defined only if the two strings are the same lengths. So the Hamming distance between &quot;CAT&quot; and &quot;SUPERCALIFRAGILISTICEXPIALIDOCIOUS&quot; is undefined.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Hamming-distance:-initial-solution">Hamming distance: initial solution<a class="anchor-link" href="#Hamming-distance:-initial-solution">&#182;</a></h2>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let&#39;s illustrate some basic Python syntax using a solution to the Hamming distance problem. If you&#39;ve done the introductory workshop, you might have come up with a similar solution yourself. </p>
+<p><strong>Exercise:</strong> If you already have some experience with Python and want to test yourself on the basics, try to solve this problem before you continue. Write a function called <code>hamming_distance</code> which takes as input two strings, and returns the number of characters which do not match. You may assume the two strings are the same length. You&#39;ll be able to use your solution as the basis for the rest of the workshop.</p>
+<p>The solution is written below, so free to stop here and try to solve this, and to ask for help if you get stuck. Asking for hints is a much better way to develop your understanding than reading the solution.</p>
+<p>A couple of hints: you will need to understand strings, loops, and conditionals. You will probably also want to use the built-in Python functions <code>range()</code> and <code>len()</code>. Remember you can use <code>help()</code> to look at the documentation for these built-in functions.</p>
+<p><strong>SPOILER ALERT:</strong> If you are new to programming, and would like to do the novice workshop, you might want to do it before looking at the solution below!</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here is one possible solution to the Hamming distance problem. The basic plan here is:</p>
+<ul>
+<li>check the length of the strings so we know how many characters we need to compare</li>
+<li>look at each pair of corresponding characters in turn by looping over the indices</li>
+<li>for each pair of characters that are not the same, add 1 to the Hamming distance</li>
+<li>return the final count</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1775,14 +1824,34 @@ In&nbsp;[2]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="c"># Assign the value 5 to variable x</span>
-<span class="n">x</span> <span class="o">=</span> <span class="mi">5</span>
+<div class="highlight"><pre><span class="c"># Return the Hamming distance between string1 and string2.</span>
+<span class="c"># string1 and string2 should be the same length.</span>
+<span class="k">def</span> <span class="nf">hamming_distance</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">):</span> 
+    <span class="c"># Start with a distance of zero, and count up</span>
+    <span class="n">distance</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c"># Loop over the indices of the string</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+        <span class="c"># Add 1 to the distance if these two characters are not equal</span>
+        <span class="k">if</span> <span class="n">string1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">string2</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="n">distance</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c"># Return the final count of differences</span>
+    <span class="k">return</span> <span class="n">distance</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can call this function by passing in two strings as the arguments <code>string1</code> and <code>string2</code>:</p>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -1791,7 +1860,8 @@ In&nbsp;[3]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">example_dist</span> <span class="o">=</span> <span class="n">hamming_distance</span><span class="p">(</span><span class="s">&quot;GATTACA&quot;</span><span class="p">,</span> <span class="s">&quot;GACTATA&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">example_dist</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1805,7 +1875,7 @@ In&nbsp;[3]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-5
+2
 
 </pre>
 </div>
@@ -1820,16 +1890,7 @@ In&nbsp;[3]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The line that starts with <code>#</code> is just a comment, which will be ignored by Python. </p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You can check the type of a variable with the built-in <code>type()</code> function:</p>
+<p>Of course, now that we have a function, we can reuse it on any pair of strings, including ones where the answer is not so obvious.</p>
 </div>
 </div>
 </div>
@@ -1840,99 +1901,8 @@ In&nbsp;[4]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-&lt;type &apos;int&apos;&gt;
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>In this case, x is an integer (a numeric type).</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Python is <em>dynamically typed</em>, which means we don&#39;t usually explicitly tell it what type our variables are. Instead the type just depends on what kind of data was assigned. </p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Here we&#39;ll run through numeric types, strings, and some basic data structures like lists, tuples, sets and dictionaries. </p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Numbers">Numbers<a class="anchor-link" href="#Numbers">&#182;</a></h3>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Above, we saw that <code>x</code> was an integer, because we assigned the value <code>5</code>, which is a whole number. You are also likely to encounter floating-point numbers, which have a decimal part:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[5]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="mf">7.4</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[6]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">hamming_distance</span><span class="p">(</span><span class="s">&quot;ACTGTGCAATACCTAAGTGAAAGGGGTGCATAGATCATTCTTTCGTTACCTCGGGTGCTATGA&quot;</span><span class="p">,</span>
+                 <span class="s">&quot;ACTCCTCTGTGTCTAAGTGAAAGGGGTGCTTGCAGGGTAATCCTTCCACCTGATACCGACTCG&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1944,12 +1914,12 @@ In&nbsp;[6]:
 
 
 <div class="output_area"><div class="prompt output_prompt">
-    Out[6]:</div>
+    Out[4]:</div>
 
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-float
+32
 </pre>
 </div>
 
@@ -1964,7 +1934,121 @@ float
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In general, adding a float to a float will produce another variable of type float, even if the answer has no decimal part:</p>
+<p><strong>Exercise:</strong> To check everything is working properly, write or paste this function into your own Notebook and calculate the Hamming distance between &quot;AGCAGACCCACAA&quot; and &quot;TGCAGCGAAACGA&quot;.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This Hamming distance solution works, but there&#39;s definitely room for improvement. As we go through some code features and tips and tricks of Python, we&#39;ll try to use them to improve this Hamming distance solution.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="More-tricks-with-strings">More tricks with strings<a class="anchor-link" href="#More-tricks-with-strings">&#182;</a></h2>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The first thing we&#39;re going to try to fix is documentation, and for this we need to learn more about strings. We have comments in our function, but Python has better documentation methods.</p>
+<p>We&#39;ll also print out strings to test our code as we learn, so it&#39;s worth taking some time at the start to learn more about using them.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="String-formatting">String formatting<a class="anchor-link" href="#String-formatting">&#182;</a></h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Say we want to print out some debugging information to see what our program is doing. For instance, imagine we&#39;re trying to talk about these variables:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[5]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">string1</span> <span class="o">=</span> <span class="s">&quot;GATTACA&quot;</span>
+<span class="n">string2</span> <span class="o">=</span> <span class="s">&quot;GACTATA&quot;</span>
+<span class="n">L</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You may have already seen string concatenation, where we add strings together, and the <code>str()</code> function which converts values to strings. This will let us build a string with our variables in it, but it can get quite clunky to write:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[6]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;String 1 is &quot;</span> <span class="o">+</span> <span class="n">string1</span> <span class="o">+</span> <span class="s">&quot;, string 2 is &quot;</span> <span class="o">+</span> <span class="n">string2</span> <span class="o">+</span> <span class="s">&quot;. The lengths are &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+String 1 is GATTACA, string 2 is GACTATA. The lengths are 7.
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>More convenient and flexible string formatting in Python can be done with the <code>.format()</code> method, which is used on strings. It looks like this:</p>
 </div>
 </div>
 </div>
@@ -1975,11 +2059,7 @@ In&nbsp;[7]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="mf">7.4</span>
-<span class="n">y</span> <span class="o">=</span> <span class="mf">2.6</span>
-<span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
-<span class="k">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span> <span class="nb">type</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="p">)</span>
+<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;String 1 is {0}, string 2 is {1}. The lengths are {2}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -1993,8 +2073,7 @@ In&nbsp;[7]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-10.0
-&lt;type &apos;float&apos;&gt;
+String 1 is GATTACA, string 2 is GACTATA. The lengths are 7.
 
 </pre>
 </div>
@@ -2009,7 +2088,7 @@ In&nbsp;[7]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can, however, convert this number into an integer with <code>int()</code>:</p>
+<p>The <code>.format()</code> method prints its first argument into the &quot;replacement fields&quot; surrounded by curly braces <code>{}</code> in the string. The first argument goes into <code>{0}</code>, the second into <code>{1}</code>, and so on. There&#39;s nothing to stop us from using a replacement field more than once:</p>
 </div>
 </div>
 </div>
@@ -2020,9 +2099,10 @@ In&nbsp;[8]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="n">z</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span> <span class="nb">type</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="p">)</span>
+<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;String 1 is {0}, string 2 is {1}. The lengths are {2}.</span><span class="se">\n</span><span class="s">The Hamming Distance between {0} and {1} is {3}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> 
+                                                                                                                      <span class="n">string2</span><span class="p">,</span> 
+                                                                                                                      <span class="n">L</span><span class="p">,</span> 
+                                                                                                                      <span class="n">hamming_distance</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">)))</span>
 </pre></div>
 
 </div>
@@ -2036,8 +2116,8 @@ In&nbsp;[8]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-10
-&lt;type &apos;int&apos;&gt;
+String 1 is GATTACA, string 2 is GACTATA. The lengths are 7.
+The Hamming Distance between GATTACA and GACTATA is 2
 
 </pre>
 </div>
@@ -2052,7 +2132,7 @@ In&nbsp;[8]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Other built-in numeric types are <code>long</code> and <code>complex</code>, which handle very large integers and complex numbers respectively.</p>
+<p>Notice that here we have added a &quot;\n&quot; to the string, and that Python printed it as a newline. We&#39;ll look at this in more detail in a moment.</p>
 </div>
 </div>
 </div>
@@ -2061,26 +2141,7 @@ In&nbsp;[8]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Exercise:</strong> What happens if you use <code>int()</code> on a number like <code>7.3</code>? What happens if you use <code>float()</code> on a number like <code>10</code>? Try it and see.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Strings,-indexing,-and-slicing">Strings, indexing, and slicing<a class="anchor-link" href="#Strings,-indexing,-and-slicing">&#182;</a></h3>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Strings in Python are written using quote characters, like so:</p>
+<p>It&#39;s also possible to use named keywords instead of numbers, like so:</p>
 </div>
 </div>
 </div>
@@ -2091,22 +2152,7 @@ In&nbsp;[9]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="s">&quot;GATTACA&quot;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[10]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight"><pre><span class="s">&quot;The Hamming Distance between {s1} and {s2} is {dist}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s1</span><span class="o">=</span><span class="n">string1</span><span class="p">,</span> <span class="n">s2</span><span class="o">=</span><span class="n">string2</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="n">hamming_distance</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -2117,15 +2163,62 @@ In&nbsp;[10]:
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-GATTACA
+<div class="output_area"><div class="prompt output_prompt">
+    Out[9]:</div>
 
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+&apos;The Hamming Distance between GATTACA and GACTATA is 2&apos;
 </pre>
 </div>
+
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The replacement fields have many options to change the way variables are displayed. For instance, we can change the number of decimal places printed, or whether a string is left-aligned. We can&#39;t cover these here, but you can look these options up in the <a href="https://docs.python.org/2/library/string.html#formatstrings">format string syntax</a> documentation.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Escape-characters-and-multi-line-strings">Escape characters and multi-line strings<a class="anchor-link" href="#Escape-characters-and-multi-line-strings">&#182;</a></h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Above, we wrote &quot;\n&quot; in a string, and it caused Python to print a newline (move down to the next line). </p>
+<p>A backslash \ indicates an <em>escape character</em>, which means that the character after the backslash is not printed normally, but treated as a special character. &quot;\n&quot; inserts a newline, and &quot;\t&quot; inserts a tab. </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[10]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;Line 1.</span><span class="se">\n</span><span class="s">Line 2.</span><span class="se">\n\t\t</span><span class="s">Line 3 is indented with two tabs.&quot;</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 
@@ -2137,7 +2230,7 @@ In&nbsp;[11]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2148,16 +2241,15 @@ In&nbsp;[11]:
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">
-    Out[11]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
 <pre>
-str
+Line 1.
+Line 2.
+		Line 3 is indented with two tabs.
+
 </pre>
 </div>
-
 </div>
 
 </div>
@@ -2169,7 +2261,7 @@ str
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Both single and double quotes are ok (&quot;GATTACA&quot; or &#39;GATTACA&#39;), but the quote character at the end of the string must match the one at the start. Quote characters of the other type will be treated as just part of the string:</p>
+<p>Using a backslash in a string can also be used to &#39;escape&#39; a character that would otherwise have a special meaning, like a quote: </p>
 </div>
 </div>
 </div>
@@ -2180,7 +2272,7 @@ In&nbsp;[12]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="s">&quot;Apostrophes aren&#39;t a problem!&quot;</span>
+<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;The two types of single-quote characters are </span><span class="se">\&quot;</span><span class="s"> and </span><span class="se">\&#39;</span><span class="s">.&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2191,16 +2283,13 @@ In&nbsp;[12]:
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">
-    Out[12]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
 <pre>
-&quot;Apostrophes aren&apos;t a problem!&quot;
+The two types of single-quote characters are &quot; and &apos;.
+
 </pre>
 </div>
-
 </div>
 
 </div>
@@ -2212,16 +2301,7 @@ In&nbsp;[12]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There is also a triple-quote operator &quot;&quot;&quot; for creating multi-line strings. We&#39;ll talk about this later, as it&#39;s particularly useful for adding documentation to our programs.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Like <code>int()</code> and <code>float()</code>, we can try to convert something to a string with <code>str()</code>.</p>
+<p>But what if you want to write an actual backslash in your string, not use it to escape another character? Since backslash itself has a special meaning, the way to write is to escape the backslash itself!</p>
 </div>
 </div>
 </div>
@@ -2232,8 +2312,7 @@ In&nbsp;[13]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="n">number</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;The escape character is </span><span class="se">\\</span><span class="s">.&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2244,16 +2323,13 @@ In&nbsp;[13]:
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">
-    Out[13]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
 <pre>
-&apos;5&apos;
+The escape character is \.
+
 </pre>
 </div>
-
 </div>
 
 </div>
@@ -2265,7 +2341,7 @@ In&nbsp;[13]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Strings are considered a <em>sequence type</em> because they are made of a sequence of characters. We can access individual characters by <em>indexing</em> the string, which means using square brackets to specify the character. Indexing in Python starts from zero: the first character is at <code>0</code>, the second at <code>1</code>, etc.</p>
+<p>If we have a very long string that will span multiple lines, and we want it to be readable, there is a particularly convenient method: the triple-quote operator, &quot;&quot;&quot; or &#39;&#39;&#39;. Everything from the first triple-quote to the next will be part of the string, even if it spans multiple lines. Whitespace characters like tabs or spaces, and non-triple quote characters, will just be included as part of the string.</p>
 </div>
 </div>
 </div>
@@ -2276,7 +2352,10 @@ In&nbsp;[14]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="s">&quot;elephant&quot;</span>
+<div class="highlight"><pre><span class="n">bulldog</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;... clutching out, he found his arms full of totally unexpected bulldog.</span>
+
+<span class="s">&quot;Get out!&quot; whispered Sam tensely, recovering his faculties with a jerk. &quot;Go away!&quot;</span>
+<span class="s">&#39;&#39;&#39;</span>
 </pre></div>
 
 </div>
@@ -2291,9 +2370,7 @@ In&nbsp;[15]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="c"># First and fourth characters</span>
-<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">bulldog</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2307,8 +2384,10 @@ In&nbsp;[15]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-e
-p
+... clutching out, he found his arms full of totally unexpected bulldog.
+
+&quot;Get out!&quot; whispered Sam tensely, recovering his faculties with a jerk. &quot;Go away!&quot;
+
 
 </pre>
 </div>
@@ -2323,7 +2402,7 @@ p
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Negative numbers count back from the end of the string:</p>
+<p>Strings created this way are normal strings: they can be indexed, sliced etc.</p>
 </div>
 </div>
 </div>
@@ -2334,9 +2413,7 @@ In&nbsp;[16]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="c"># Last and fourth-last charaters:</span>
-<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">])</span>
+<div class="highlight"><pre><span class="n">bulldog</span><span class="p">[</span><span class="mi">53</span><span class="p">:</span><span class="mi">71</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -2347,46 +2424,21 @@ In&nbsp;[16]:
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-t
-h
+<div class="output_area"><div class="prompt output_prompt">
+    Out[16]:</div>
 
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+&apos;unexpected bulldog&apos;
 </pre>
 </div>
+
 </div>
 
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can also get multiple letters from a string at once using <em>slicing</em>. For instance, <code>s[2:4]</code> will give a <em>slice</em> of the string, starting at index <code>2</code> and going up to, but not including, index <code>4</code>. </p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>x[2:4]</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can also leave one (or both) of the numbers out, to go all the way from the start, or all the way until the end of the string.</p>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2395,8 +2447,7 @@ In&nbsp;[17]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="c"># From the second character until the end of the string</span>
-<span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+<div class="highlight"><pre><span class="n">bulldog</span><span class="p">[</span><span class="mi">72</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -2413,7 +2464,7 @@ In&nbsp;[17]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-&apos;ephant&apos;
+&apos;\n&apos;
 </pre>
 </div>
 
@@ -2428,7 +2479,17 @@ In&nbsp;[17]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Notice that since the <code>x[:4]</code> gives us the string until just <em>before</em> index <code>4</code>, and <code>x[4:]</code> gives us the string starting <em>at</em> index <code>4</code>, this actually splits the string into two parts with no overlaps or missing pieces.</p>
+<h2 id="Docstrings">Docstrings<a class="anchor-link" href="#Docstrings">&#182;</a></h2>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A <em>docstring</em> is a string which Python interprets as documentation. Any string placed at the start of a function definition will be interpreted as a docstring. </p>
 </div>
 </div>
 </div>
@@ -2439,54 +2500,15 @@ In&nbsp;[18]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span> <span class="n">x</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="p">)</span>
-<span class="k">print</span><span class="p">(</span> <span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="p">)</span>
-
-<span class="c"># Concatenate the strings</span>
-<span class="k">print</span><span class="p">(</span> <span class="n">x</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="p">)</span>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="s">&quot;Return two times x.&quot;</span>
+    <span class="k">return</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-elep
-hant
-elephant
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Lists-and-tuples">Lists and tuples<a class="anchor-link" href="#Lists-and-tuples">&#182;</a></h3>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><em>Lists</em> are ordered collections of values. They are similar to arrays in some other languages. They are written out like this, in square brackets <code>[]</code>, with items separated by commas:</p>
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2495,8 +2517,7 @@ In&nbsp;[19]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="n">odd_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="n">odd_numbers</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">double</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2507,18 +2528,30 @@ In&nbsp;[19]:
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-[1, 3, 5, 7, 9, 11]
+<div class="output_area"><div class="prompt output_prompt">
+    Out[19]:</div>
 
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+8
 </pre>
 </div>
+
 </div>
 
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Docstrings are a very useful convention for human readability, and what&#39;s more, they are also treated as documentation by Python itself. If we now use the built-in <code>help()</code> function:</p>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2527,8 +2560,7 @@ In&nbsp;[20]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="n">odd_strings</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;one&quot;</span><span class="p">,</span> <span class="s">&quot;three&quot;</span><span class="p">,</span> <span class="s">&quot;five&quot;</span><span class="p">,</span> <span class="s">&quot;seven&quot;</span><span class="p">,</span> <span class="s">&quot;nine&quot;</span><span class="p">,</span> <span class="s">&quot;eleven&quot;</span><span class="p">]</span>
-<span class="k">print</span><span class="p">(</span><span class="n">odd_strings</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">help</span><span class="p">(</span><span class="n">double</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2542,7 +2574,11 @@ In&nbsp;[20]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-[&apos;one&apos;, &apos;three&apos;, &apos;five&apos;, &apos;seven&apos;, &apos;nine&apos;, &apos;eleven&apos;]
+Help on function double in module __main__:
+
+double(x)
+    Return two times x.
+
 
 </pre>
 </div>
@@ -2557,7 +2593,17 @@ In&nbsp;[20]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Lists are a <em>sequence type</em>, just like strings. This means we can index and slice them.</p>
+<p>It&#39;s a good idea to include a docstring in all your function definitions!</p>
+<p>Docstrings can also be used in other Python objects such as class definitions (in object-oriented programming) and in Python scripts themselves (by adding a string at the top of the script file).</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Often we&#39;ll want to write a longer docstring than will fit on one line. The triple-quote operator is perfect for this.</p>
 </div>
 </div>
 </div>
@@ -2568,138 +2614,12 @@ In&nbsp;[21]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="c"># First, third and last</span>
-<span class="n">odd_strings</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">odd_strings</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">odd_strings</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[21]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-(&apos;one&apos;, &apos;five&apos;, &apos;eleven&apos;)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[22]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="c"># First three items</span>
-<span class="n">odd_strings</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[22]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-[&apos;one&apos;, &apos;three&apos;, &apos;five&apos;]
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>There are a few functions in Python that are particularly useful for working with lists. The built-in Python function <code>len()</code> gives the length of a list (and of other types, including strings and tuples):</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[23]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="nb">len</span><span class="p">(</span><span class="n">odd_strings</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[23]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-6
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Try using the <code>len()</code> function on a string, and on a tuple, to check it does what you expect.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>There are also special functions in Python which apply only to certain data types. These functions are called <em>methods</em> and are used by writing them after the variable name, with a dot, like <code>variable.function()</code>. For instance, lists have a method called <code>append()</code> which adds an item to the end of the list:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[24]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">odd_strings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;thirteen&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Take a numeric value x.</span>
+<span class="sd">    Return two times x.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
 </pre></div>
 
 </div>
@@ -2707,204 +2627,18 @@ In&nbsp;[24]:
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[25]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">odd_strings</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[25]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-[&apos;one&apos;, &apos;three&apos;, &apos;five&apos;, &apos;seven&apos;, &apos;nine&apos;, &apos;eleven&apos;, &apos;thirteen&apos;]
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><em>Tuples</em> are a lot like lists, but they are <em>immutable</em>, which means you cannot alter them in-place: you cannot add or remove items from them. They are written with round instead of square brackets.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[26]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">even_numbers</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">even_numbers</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-(2, 4, 6)
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Tuples with only one value have a special syntax - they need a comma so that Python can tell we are writing a tuple and not just putting brackets around our code.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[27]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-(5,)
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Lists are <em>mutable</em>, meaning items can be added or removed with methods like <code>.append()</code>, <code>.pop()</code> and <code>.remove()</code>. Strings and tuples are immutable. What happens if you try these methods on a string or a tuple?</p>
-<p>Although you can&#39;t alter strings or tuples directly, you can add a character or item by building a whole new string or tuple out of the old one.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[28]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">even_numbers</span> <span class="o">=</span> <span class="n">even_numbers</span> <span class="o">+</span> <span class="p">(</span><span class="mi">8</span><span class="p">,)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">even_numbers</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-(2, 4, 6, 8)
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This works, but can be slow to run because the entire original string (or tuple) is copied each time. If you need to write an algorithm that builds a sequence piece by piece, you should use lists for efficiency.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Sets-and-dictionaries">Sets and dictionaries<a class="anchor-link" href="#Sets-and-dictionaries">&#182;</a></h3>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Sets">Sets<a class="anchor-link" href="#Sets">&#182;</a></h4>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Sets are a Python data type which, like lists, hold collections of values. The main differences between sets and lists are:</p>
+<p>Ideally, a function docstring should tell us:</p>
 <ul>
-<li>a set can only have <strong>one</strong> copy of each value at most: values must be unique</li>
-<li>the values in a set are not in order - Python may return them in a random order each time!</li>
+<li>what the function is for</li>
+<li>what the inputs mean, and the expected types</li>
+<li>what the output will be, and its type</li>
 </ul>
-<p>If you&#39;re familiar with sets as used in mathematics, Python&#39;s sets are actually quite similar, and can be used for set calculations by calling set methods like <code>.union()</code> and <code>.intersection()</code>.</p>
+<p>There is a standard for describing all this information which is followed by numpy, and which is a nice convention to follow. That standard is described <a href="https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt">here</a></p>
 </div>
 </div>
 </div>
@@ -2913,100 +2647,8 @@ In&nbsp;[28]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can create a set by passing a list into <code>set()</code>. Since sets only store unique items, only one  copy of each item in the list will be added to the set.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[29]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">big_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span>
-       <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span>
-       <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span>
-       <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;6&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span>
-       <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span>
-       <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span>
-       <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span>
-       <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">]</span>
-<span class="n">unique_values</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">big_list</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">unique_values</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-set([&apos;1&apos;, &apos;3&apos;, &apos;5&apos;, &apos;7&apos;, &apos;6&apos;])
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Values can be added to a set using the <code>.add()</code> method, and removed using <code>.remove()</code>. </p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[30]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">unique_values</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;20&#39;</span><span class="p">)</span>
-<span class="n">unique_values</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[30]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-{&apos;1&apos;, &apos;20&apos;, &apos;3&apos;, &apos;5&apos;, &apos;6&apos;, &apos;7&apos;}
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Adding an item that is already in the set has no effect.</p>
+<p><strong>Exercise 1:</strong> Add a docstring to your <code>hamming_distance</code> function to describe what it does. Test it with the <code>help()</code> function. </p>
+<p><strong>Exercise 2:</strong> Optionally, upgrade your docstring to a numpy-style docstring.</p>
 </div>
 </div>
 </div>
@@ -3015,17 +2657,7 @@ In&nbsp;[30]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Notice that although sets are unordered, and you can&#39;t rely on the order in which items will be returned or printed, you can always sort them yourself using the built-in <code>sorted()</code> function, with a call such as <code>sorted(unique_values)</code>. <code>sorted()</code> can also be applied to sequence data types, like lists.</p>
-<p><strong>Exercise</strong>: Try applying <code>sorted()</code> to various data types and see if it does what you expect. Look at the documentation for this function and see if you can sort in reverse order. </p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Dictionaries">Dictionaries<a class="anchor-link" href="#Dictionaries">&#182;</a></h4>
+<h2 id="Python-style-iteration">Python-style iteration<a class="anchor-link" href="#Python-style-iteration">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -3035,335 +2667,8 @@ In&nbsp;[30]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><em>Dictionaries</em> are built-in Python data type for storing collections of values. They correspond to data types like maps or hashes in some other programming languages. Dictionaries are a bit like sets - they store unordered collections of items. But dictionaries store key-value pairs. &quot;Keys&quot; are used for indexing and must be unique. &quot;Values&quot; do not have to be unique.</p>
-<p>So, just like in sets, all keys in a dictionary must be unique - only one of each can be stored. Also like a set, the keys in a dictionary are stored in no particular order. </p>
-<p>Here&#39;s an example dictionary, which we define by using curly braces <code>{}</code>, and by putting a colon <code>:</code> between each key and its corresponding value. This dictionary stores some people&#39;s heights in centimetres.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[31]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">heights</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;Sam&quot;</span><span class="p">:</span><span class="mi">201</span><span class="p">,</span> <span class="s">&quot;Fiona&quot;</span><span class="p">:</span><span class="mi">167</span><span class="p">,</span> <span class="s">&quot;Quentin&quot;</span><span class="p">:</span><span class="mi">167</span><span class="p">}</span>
-<span class="k">print</span><span class="p">(</span><span class="n">heights</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-{&apos;Fiona&apos;: 167, &apos;Quentin&apos;: 167, &apos;Sam&apos;: 201}
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can retrieve a value from a dictionary using its key. We use square brackets <code>[]</code>, just like getting an item from a list.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[32]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">heights</span><span class="p">[</span><span class="s">&quot;Sam&quot;</span><span class="p">])</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-201
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can assign a value to the dictionary using indexing and the assignment operator <code>=</code>, like so:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[33]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">heights</span><span class="p">[</span><span class="s">&quot;Mary&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">180</span>
-<span class="k">print</span><span class="p">(</span><span class="n">heights</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-{&apos;Fiona&apos;: 167, &apos;Quentin&apos;: 167, &apos;Mary&apos;: 180, &apos;Sam&apos;: 201}
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Exercise:</strong> What happens if you try to index a dictionary with a key that is not in it? What happens if you assign an value to the dictionary but the key already exists?</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can explicitly check to see if a key is in the dictionary or not using the Python operator <code>in</code>, which returns <code>True</code> or <code>False</code>:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[34]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="s">&quot;Mary&quot;</span> <span class="ow">in</span> <span class="n">heights</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[34]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-True
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[35]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="s">&quot;Jason&quot;</span> <span class="ow">in</span> <span class="n">heights</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[35]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-False
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[36]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="c"># This is the same as: not (&quot;Mary&quot; in heights)</span>
-<span class="s">&quot;Mary&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">heights</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[36]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-False
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Dictionaries: algorithmic considerations</strong></p>
-<p>In fact, dictionaries (and sets) are an implementation of <a href="http://en.wikipedia.org/wiki/Hash_table">hash tables</a>, and work by carrying out a hash function on the keys to decide where to store them in the computer&#39;s memory. This means that dictionaries are very fast at retrieving information. Even if you have a very large dictionary, finding an item in it using a key takes a roughly constant amount of time that does not grow with the size of the dictionary - the performance of the algorithm is approximately O(1). </p>
-<p>This also means that the keys of a dictionary must be <em>immutable</em> types, because if the key is altered in-place, its expected location in memory will become wrong. So, lists can&#39;t be used as dictionary keys - you will get an error if you try. But tuples, strings, and numbers all can. </p>
-<p>There is no problem, however, using a mutable type like a list as a dictionary <em>value</em>:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[37]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">prime_factors</span> <span class="o">=</span> <span class="p">{</span><span class="mi">12</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
-                 <span class="mi">100</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>
-                 <span class="mi">9</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]}</span>
-<span class="k">print</span><span class="p">(</span><span class="n">prime_factors</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-{100: [2, 2, 5, 5], 12: [3, 4], 9: [3, 3]}
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Other-data-types">Other data types<a class="anchor-link" href="#Other-data-types">&#182;</a></h3>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>There are other standard data types in Python which we won&#39;t have time to cover here. Don&#39;t worry too much about these now, but for your reference, a few more important ones are:</p>
-<ul>
-<li>Booleans (True and False): These we&#39;ll cover below, when we talk about conditionals.</li>
-<li>File objects: These represent open files and are returned when we open a file for reading or writing, e.g. <code>f = open(&quot;myfile.txt&quot;)</code></li>
-<li>Class instances: These are used in object-oriented programming when we define our own classes, which can act like custom data types.</li>
-<li>Exceptions: These types are used for reporting errors. We&#39;ll look at them in a later section.</li>
-<li>Function objects: This is a more advanced usage, but functions themselves can be assigned to variables.</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Loops">Loops<a class="anchor-link" href="#Loops">&#182;</a></h2>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Once we have some data we often want to be able to loop over it to perform the same operation repeatedly. A for loop in Python takes the general form</p>
-<pre><code class="language-python"><span class="keyword">for</span> item <span class="keyword">in</span> list:
+<p>We&#39;ve seen that for loops in Python have the general form</p>
+<pre><code class="language-python"><span class="keyword">for</span> item <span class="keyword">in</span> iterable_variable:
     do_something
 </code></pre>
 </div>
@@ -3374,20 +2679,19 @@ In&nbsp;[37]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>For instance, given our list of odd numbers:</p>
+<p>This means that we can loop over the characters of a string directly, like</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[38]:
+In&nbsp;[22]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">odd_numbers</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">num</span><span class="p">)</span>
+<div class="highlight"><pre><span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="s">&quot;CAT&quot;</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">char</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -3401,18 +2705,9 @@ In&nbsp;[38]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-1
-2
-3
-6
-5
-10
-7
-14
-9
-18
-11
-22
+CCC
+AAA
+TTT
 
 </pre>
 </div>
@@ -3427,22 +2722,21 @@ In&nbsp;[38]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There are two things to notice here, which might be surprising if you&#39;re used to other programming languages:</p>
-<p><strong>Whitespace is important!</strong> There are no brackets or braces around the loop, but everything inside the loop is indented. Python will treat the next non-indented line as being the end of the for loop. Whitespace is important in Python generally; we will also use it to define conditionals and functions. Also notice the colon (<code>:</code>) at the end of the for statement itself; this is also used in conditionals and function definitions.</p>
-<p>Since whitespace matters in Python, you have to be careful about your indentation, but it also makes programs very readable. It&#39;s a good idea to stick to spaces only when writing Python, and avoid tabs. This is because it&#39;s difficult for a human programmer to tell the difference between a tab and a set of spaces, so mixing the two can lead to some very confusing bugs.</p>
-<p><strong>We loop over a list</strong> (or some other kind of iterable object), and assign the loop variable to each list item in turn. This is in contrast to some languages, like C or Java, that use a condition and an increment operator to create a loop.</p>
-<p>We can loop over any kind of list - it doesn&#39;t have to be numbers:</p>
+<p>Or over any kind of list:</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[39]:
+In&nbsp;[23]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">odd_strings</span><span class="p">:</span>
+<div class="highlight"><pre><span class="n">odd_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
+<span class="n">odd_strings</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;one&quot;</span><span class="p">,</span> <span class="s">&quot;three&quot;</span><span class="p">,</span> <span class="s">&quot;five&quot;</span><span class="p">,</span> <span class="s">&quot;seven&quot;</span><span class="p">,</span> <span class="s">&quot;nine&quot;</span><span class="p">,</span> <span class="s">&quot;eleven&quot;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">odd_strings</span><span class="p">:</span>
     <span class="k">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
 </pre></div>
 
@@ -3463,7 +2757,6 @@ five
 seven
 nine
 eleven
-thirteen
 
 </pre>
 </div>
@@ -3478,65 +2771,20 @@ thirteen
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Sometimes, we <em>do</em> want to do C-style for loops, and loop over numbers up to some maximum value. We don&#39;t want to have to type the whole list of numbers out by hand. Quite a common pattern is to use Python&#39;s built-in <code>range()</code> function to generate the list of numbers to loop over:</p>
+<p>There are several built-in Python functions that can help take advantage of this kind of iteration.</p>
+<p><code>enumerate()</code> will return an iterable together with its index values, where each item is replaced by a tuple:</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[40]:
+In&nbsp;[24]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[40]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-[0, 1, 2, 3, 4, 5]
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For instance, let&#39;s use <code>range()</code> to simultaneously look at each element of <code>odd_numbers</code> and <code>odd_strings</code>:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[41]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="c"># How long is the list?</span>
-<span class="n">L</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">odd_numbers</span><span class="p">)</span>
-<span class="c"># Now loop over all the index values</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">odd_numbers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">odd_strings</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<div class="highlight"><pre><span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">odd_strings</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -3550,12 +2798,12 @@ In&nbsp;[41]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-0 1 one
-1 3 three
-2 5 five
-3 7 seven
-4 9 nine
-5 11 eleven
+(0, &apos;one&apos;)
+(1, &apos;three&apos;)
+(2, &apos;five&apos;)
+(3, &apos;seven&apos;)
+(4, &apos;nine&apos;)
+(5, &apos;eleven&apos;)
 
 </pre>
 </div>
@@ -3570,8 +2818,60 @@ In&nbsp;[41]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>range()</code> is able to generate more sophisticated sequences, with different starting points and step sizes. Use <code>help(range)</code> to see the documentation.</p>
-<p><strong>Exercise:</strong> Write a loop that prints out every <em>second</em> number in <code>odd_numbers</code>.</p>
+<p>This can be useful when we actually care about the indices:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[25]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">num</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">odd_numbers</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Odd number {0} is {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Odd number 1 is 1
+Odd number 2 is 3
+Odd number 3 is 5
+Odd number 4 is 7
+Odd number 5 is 9
+Odd number 6 is 11
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is a more concise and readable alternative to writing </p>
+<pre><code class="language-python"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(odd_numbers)):
+</code></pre>
+<p>and using indexing.</p>
+<p>Also notice that we&#39;ve written </p>
+<pre><code class="language-python"><span class="keyword">for</span> (i,num) <span class="keyword">in</span>...
+</code></pre>
+<p>Each item in <code>enumerate(odd_numbers)</code> is a tuple, and this syntax assigns each of these tuples in turn to the tuple of variables <code>(i,num)</code>.</p>
 </div>
 </div>
 </div>
@@ -3580,7 +2880,124 @@ In&nbsp;[41]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Conditionals">Conditionals<a class="anchor-link" href="#Conditionals">&#182;</a></h2>
+<p>Another useful function is <code>zip()</code>. <code>zip()</code> takes multiple lists and turns them into one list of tuples, like so:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[26]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="nb">zip</span><span class="p">(</span><span class="n">odd_numbers</span><span class="p">,</span> <span class="n">odd_strings</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[26]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+[(1, &apos;one&apos;),
+ (3, &apos;three&apos;),
+ (5, &apos;five&apos;),
+ (7, &apos;seven&apos;),
+ (9, &apos;nine&apos;),
+ (11, &apos;eleven&apos;)]
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This makes it easy to iterate over multiple lists at once:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[27]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">numstring</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">odd_numbers</span><span class="p">,</span> <span class="n">odd_strings</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Number {0} is written {1}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">numstring</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Number 1 is written one.
+Number 3 is written three.
+Number 5 is written five.
+Number 7 is written seven.
+Number 9 is written nine.
+Number 11 is written eleven.
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="exercise-1-">Exercise 1:</h4>
+<p>Write a loop which uses <code>odd_numbers</code> and <code>odd_strings</code> to print out</p>
+<pre><code>Odd number 1 is 1, written one.
+Odd number 2 is 3, written three.
+Odd number 3 is 5, written five.
+....
+</code></pre><p>There is more than one way to solve this. Compare your solution to your neighbour&#39;s.</p>
+<h4 id="exercise-2-">Exercise 2:</h4>
+<p>In our Hamming distance function, we have to loop over two strings simultaneously to compare the characters. So, we currently use a rather clunky construction: we use <code>len()</code> to find the length of the strings, <code>range()</code> to generate numbers, and then we index the strings at every step:</p>
+<pre><code class="language-python">L = len(string1)
+<span class="keyword">for</span> i <span class="keyword">in</span> range(L):
+    <span class="keyword">if</span> string1[i] != string2[i]:
+        distance += <span class="number">1</span>
+</code></pre>
+<p>Rewrite your Hamming distance function to take advantage of <code>zip()</code> so that you don&#39;t need to use string indexing at all.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="List-comprehensions">List comprehensions<a class="anchor-link" href="#List-comprehensions">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -3590,522 +3007,497 @@ In&nbsp;[41]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The other standard thing we need to know how to do in Python is conditionals, or if/then/else statements. In Python the basic syntax is:</p>
-<pre><code class="language-python"><span class="keyword">if</span> condition:
+<p>List comprehensions are a concise way to create lists in Python, where you would ordinarily have to use a <code>for</code> loop. They act like very compact loops, and in some situations, they can make your program quite clear to read.</p>
+<p>The basic form of a list comprehension is:</p>
+<pre><code class="language-python">[f(x) <span class="keyword">for</span> x <span class="keyword">in</span> list]
+</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For instance, here is list comprehension that just doubles every number in the original list:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[28]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="p">[</span><span class="n">num</span><span class="o">*</span><span class="mi">2</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">odd_numbers</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[28]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+[2, 6, 10, 14, 18, 22]
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Of course, it&#39;s easy to assign the new list to a variable:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[29]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">doubled_odd_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">num</span><span class="o">*</span><span class="mi">2</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">odd_numbers</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To create <code>doubled_odd_numbers</code> using a loop, we would have had to write:</p>
+<pre><code class="language-python">doubled_odd_numbers = []
+<span class="keyword">for</span> num <span class="keyword">in</span> odd_numbers:
+    doubled_odd_numbers.append(<span class="number">2</span>*num)
+</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Which of these makes it most clear what we are trying to do?</p>
+<p>Here&#39;s another simple example that uses the uppercase conversion method for strings, <code>.upper()</code>: </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[30]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="p">[</span><span class="n">each_string</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">each_string</span> <span class="ow">in</span> <span class="n">odd_strings</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[30]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+[&apos;ONE&apos;, &apos;THREE&apos;, &apos;FIVE&apos;, &apos;SEVEN&apos;, &apos;NINE&apos;, &apos;ELEVEN&apos;]
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The longer form of list comprehensions includes a conditional, and looks like</p>
+<pre><code class="language-python">[f(x) <span class="keyword">for</span> x <span class="keyword">in</span> list <span class="keyword">if</span> condition]
+</code></pre>
+<p>For instance, all the odd number names that are shorter than five letters long:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[31]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="p">[</span><span class="n">each_string</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">each_string</span> <span class="ow">in</span> <span class="n">odd_strings</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">each_string</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[31]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+[&apos;ONE&apos;, &apos;FIVE&apos;, &apos;NINE&apos;]
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Or we can leave out the <code>.upper()</code> and just get the value itself, filtered by the condition. We still need the <code>for</code> keyword though, so our list comprehension ends up looking list this:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[32]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="p">[</span><span class="n">each_string</span> <span class="k">for</span> <span class="n">each_string</span> <span class="ow">in</span> <span class="n">odd_strings</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">each_string</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[32]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+[&apos;one&apos;, &apos;five&apos;, &apos;nine&apos;]
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="challenge-hard-">Challenge (hard!)</h4>
+<p>If you have a Hamming distance function that uses <code>zip()</code>, can you think of a way to replace the <code>for</code> loop in your function with a list comprehension?</p>
+<p>There are a couple of ways to do this, but it takes some lateral thinking. As a hint, if you&#39;re going to produce a list of values, you will need to use a function like <code>len()</code> or <code>sum()</code> to convert them into your final number that gives Hamming distance.</p>
+<p>Do you think that this list comprehension makes your program easier to understand, or harder? In general, if you ever find that using a list comprehension is actually making your program less clear rather than more clear, you should consider using a loop instead - it may not be quite as concise, but clarity is much more important.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Error-handling:-Exceptions">Error handling: Exceptions<a class="anchor-link" href="#Error-handling:-Exceptions">&#182;</a></h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One serious problem with our current solution is the way it handles errors.</p>
+<p>We only have a good definition for Hamming distance when the strings are the same length. In our function, we&#39;ve assumed <code>string1</code> and <code>string2</code> will always be the same length. But what if they&#39;re not?</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[33]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">hamming_distance</span><span class="p">(</span><span class="s">&quot;SHORT&quot;</span><span class="p">,</span><span class="s">&quot;THIS_IS_A_LONG_STRING&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[33]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+4
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[34]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">hamming_distance</span><span class="p">(</span><span class="s">&quot;THIS_IS_A_LONG_STRING&quot;</span><span class="p">,</span><span class="s">&quot;SHORT&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_pyerr">
+<pre>
+<span class="ansired">---------------------------------------------------------------------------</span>
+<span class="ansired">IndexError</span>                                Traceback (most recent call last)
+<span class="ansigreen">&lt;ipython-input-34-8877eff1c5e5&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
+<span class="ansigreen">----&gt; 1</span><span class="ansired"> </span>hamming_distance<span class="ansiblue">(</span><span class="ansiblue">&quot;THIS_IS_A_LONG_STRING&quot;</span><span class="ansiblue">,</span><span class="ansiblue">&quot;SHORT&quot;</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+
+<span class="ansigreen">&lt;ipython-input-2-79e0fea0a434&gt;</span> in <span class="ansicyan">hamming_distance</span><span class="ansiblue">(string1, string2)</span>
+<span class="ansigreen">      8</span>     <span class="ansigreen">for</span> i <span class="ansigreen">in</span> range<span class="ansiblue">(</span>L<span class="ansiblue">)</span><span class="ansiblue">:</span><span class="ansiblue"></span>
+<span class="ansigreen">      9</span>         <span class="ansired"># Add 1 to the distance if these two characters are not equal</span><span class="ansiblue"></span><span class="ansiblue"></span>
+<span class="ansigreen">---&gt; 10</span><span class="ansired">         </span><span class="ansigreen">if</span> string1<span class="ansiblue">[</span>i<span class="ansiblue">]</span> <span class="ansiblue">!=</span> string2<span class="ansiblue">[</span>i<span class="ansiblue">]</span><span class="ansiblue">:</span><span class="ansiblue"></span>
+<span class="ansigreen">     11</span>             distance <span class="ansiblue">+=</span> <span class="ansicyan">1</span><span class="ansiblue"></span>
+<span class="ansigreen">     12</span>     <span class="ansired"># Return the final count of differences</span><span class="ansiblue"></span><span class="ansiblue"></span>
+
+<span class="ansired">IndexError</span>: string index out of range</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This doesn&#39;t look very good. We get a different result depending on which order we pass the strings in - that&#39;s definitely not something we want. And neither result really makes sense.</p>
+<p>In the first case, <code>L=len(string1)</code> took on a value of <code>5</code>, and our function just compared &quot;SHORT&quot; to &quot;THIS_&quot;. It didn&#39;t warn us about all the extra, un-matched letters.</p>
+<p>In the second case, we get an error message, which is arguably a better thing to happen. It isn&#39;t a very informative error message though, especially for someone who&#39;s trying to reuse our function and doesn&#39;t know the details of how it works: &quot;IndexError: string index out of range&quot;</p>
+<p><strong>Stop and think: do you understand what went wrong in this case?</strong></p>
+<p>What&#39;s happened here is that <code>L=len(string1)</code> took on a value of <code>21</code>. Since <code>string2</code> doesn&#39;t have 21 letters, the attempt to index <code>string2[i]</code> failed as soon as we reached <code>i==5</code>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If we are practicing defensive programming, we should check that the inputs to our function are correct, and give an appropriate, informative error message if they&#39;re not. This is more useful behaviour than reporting &quot;IndexError&quot;, and <em>much</em> more useful behaviour than reporting no errors and just giving the wrong answer.</p>
+<p>The standard way to create an error in Python is to <strong>raise</strong> an <strong>Exception</strong>. Exceptions are a data type specifically used to represent different types of errors. You&#39;ve actually seen them already: every time we write a program that crashes, the error message that gets printed out is the result of an Exception. This includes the <code>IndexError</code> message our Hamming distance function gives currently.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can <em>manually</em> create an error with the <code>raise()</code> command. </p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[35]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="k">raise</span><span class="p">(</span><span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Oh no! Something bad happened!&quot;</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_pyerr">
+<pre>
+<span class="ansired">---------------------------------------------------------------------------</span>
+<span class="ansired">Exception</span>                                 Traceback (most recent call last)
+<span class="ansigreen">&lt;ipython-input-35-8f5202952286&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
+<span class="ansigreen">----&gt; 1</span><span class="ansired"> </span><span class="ansigreen">raise</span><span class="ansiblue">(</span>Exception<span class="ansiblue">(</span><span class="ansiblue">&quot;Oh no! Something bad happened!&quot;</span><span class="ansiblue">)</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+
+<span class="ansired">Exception</span>: Oh no! Something bad happened!</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here we have created a new Exception with <code>Exception(error_message)</code>, and passed it to <code>raise()</code>, which stops the program and prints the error. Exceptions are objects and can be assigned to variables:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[36]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">my_error</span> <span class="o">=</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Oh no!&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&quot;Nothing bad has happened yet.&quot;</span><span class="p">)</span>
+<span class="k">raise</span><span class="p">(</span><span class="n">my_error</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+Nothing bad has happened yet.
+
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_text output_pyerr">
+<pre>
+<span class="ansired">---------------------------------------------------------------------------</span>
+<span class="ansired">Exception</span>                                 Traceback (most recent call last)
+<span class="ansigreen">&lt;ipython-input-36-5f9d4b0bab10&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
+<span class="ansigreen">      1</span> my_error <span class="ansiblue">=</span> Exception<span class="ansiblue">(</span><span class="ansiblue">&quot;Oh no!&quot;</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">      2</span> <span class="ansigreen">print</span><span class="ansiblue">(</span><span class="ansiblue">&quot;Nothing bad has happened yet.&quot;</span><span class="ansiblue">)</span><span class="ansiblue"></span>
+<span class="ansigreen">----&gt; 3</span><span class="ansired"> </span><span class="ansigreen">raise</span><span class="ansiblue">(</span>my_error<span class="ansiblue">)</span><span class="ansiblue"></span>
+
+<span class="ansired">Exception</span>: Oh no!</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="exercise">Exercise</h4>
+<p>Add a test to the start of your <code>hamming_distance()</code> function to test that the length of <code>string1</code> is the same as the length of <code>string2</code>. If they are different, raise an Exception with an appropriate error message. Test out your new, improved function with some incorrect strings.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Note:</strong> There are actually many different subclasses of Exceptions, some of which you&#39;ve probably seen: <code>IndexError</code>, <code>TypeError</code>, <code>ValueError</code>, etc. You can find the (long) list of Exception types for Python 2 at <a href="https://docs.python.org/2/library/exceptions.html">https://docs.python.org/2/library/exceptions.html</a> . If you&#39;d like, you can make your program even more debugger-friendly by creating the right type of Exception to describe what went wrong - for instance, if <code>hamming_distance()</code> is called with strings of different lengths, that is probably a <code>ValueError</code>. For our purposes today it is fine to just create a generic <code>Exception</code>.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Catching-exceptions">Catching exceptions<a class="anchor-link" href="#Catching-exceptions">&#182;</a></h3>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A nice side-effect of Python&#39;s method of reporting errors is that we can have our program <em>ignore</em> certain types of errors if we choose to, or handle them differently. This is done with a try-except block. We <em>try</em> to execute some code, and if it fails, we can choose what to do about the errors.</p>
+<p>The basic form is</p>
+<pre><code class="language-python"><span class="keyword">try</span>:
     do_something
+<span class="keyword">except</span>:
+    handle_errors
 </code></pre>
-<p>For instance:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[42]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">num</span> <span class="o">=</span> <span class="mi">220</span>
-
-<span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;num is greater than 100&#39;</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">300</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;num is greater than 300&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-num is greater than 100
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Since <code>num</code> is not greater than 300, the code in that conditional block was not executed at all.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Each condition, like <code>num &gt; 100</code>, is an expression which evaluates to <code>True</code> or <code>False</code>. We can assign this boolean value to a variable, or write it out directly:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[43]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">num</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-True
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Here we&#39;ve used the logical operator <code>&gt;</code>, which means &quot;greater than&quot;. We can also use <code>==</code> for equality, <code>&lt;=</code> for less than or equal to, <code>&gt;=</code> for greater than or equal to, and <code>!=</code> for not equal to.</p>
-<p>It&#39;s important to notice that the operator for comparing two things (<code>==</code>) is different to the operator for assigning a value to a variable (<code>=</code>).</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can also use the boolean operators <code>and</code>, <code>or</code> and <code>not</code> operator on conditionals:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[44]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="bp">True</span> <span class="ow">and</span> <span class="bp">False</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[44]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-False
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[45]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="bp">True</span> <span class="ow">or</span> <span class="bp">False</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[45]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-True
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[46]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="ow">not</span> <span class="bp">True</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[46]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-False
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[47]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="p">(</span><span class="n">num</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">num</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[47]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-True
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[48]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="ow">not</span> <span class="p">(</span><span class="n">num</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[48]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-False
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The more extended syntax for conditionals is:</p>
-<pre><code class="language-python"><span class="keyword">if</span> condition:
-    do_something
-<span class="keyword">elif</span> another_condition:
-    do_something_else
-<span class="keyword">elif</span> a_third_condition:
-    do_the_other_thing
-<span class="keyword">else</span>:
-    do_something_completely_different
-</code></pre>
-<p>where we can have any number of <code>elif</code> statements (including zero). <code>elif</code> stands for &quot;else if&quot;. Only one of the blocks in an <code>if</code> statement like the above will be executed. The <code>elif</code> and <code>else</code> conditions will only be considered if none of the earlier conditions has succeeded; the whole <code>if</code> statement is over as soon as one of the conditions evaluates to <code>True</code>. For instance:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[49]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">num</span> <span class="o">=</span> <span class="mi">220</span>
-<span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">500</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;num is more than 500&quot;</span><span class="p">)</span>
-<span class="k">elif</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">200</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;num is more than 200&quot;</span><span class="p">)</span>
-<span class="k">elif</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;num is more than 100&quot;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;num is LESS than 100&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-num is more than 200
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Functions">Functions<a class="anchor-link" href="#Functions">&#182;</a></h2>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Functions in Python take the general form</p>
-<pre><code class="language-python"><span class="function"><span class="keyword">def</span> <span class="title">function_name</span><span class="params">(inputs)</span>:</span>
-    do stuff
-    <span class="keyword">return</span> output
-</code></pre>
-<p>For instance, here is a function that just multiplies a value by 2:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[50]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can call our function like</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[51]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">double</span><span class="p">(</span><span class="mf">7.3</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[51]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-14.6
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[52]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">twice_ten</span> <span class="o">=</span> <span class="n">double</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">twice_ten</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-20
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Notice that since Python functions don&#39;t specify the types of their inputs, we can try to pass in values other than numbers and Python will execute the code (if it can)! Sometimes, this may lead to a surprising result:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[53]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">double</span><span class="p">(</span><span class="s">&quot;this is a string&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[53]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-&apos;this is a stringthis is a string&apos;
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Challenge">Challenge<a class="anchor-link" href="#Challenge">&#182;</a></h2>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If you are new to Python, or are doing this quick introduction instead of the novice lessons, a good way to try putting the above together is to go on to the <a href="improved_hammingdist.html">next workshop</a> and start by implementing the basic Hamming distance function for yourself, without reading the solution. </p>
-<p>The solution to this basic problem is also written in the workshop, so feel free to ask for help if you get stuck, rather than reading on too far - asking for hints is a much better way to develop your understanding than reading the solution.</p>
+<p>The code in the <code>except</code> block is only called if the code in the <code>try</code> block crashes. It&#39;s a little like an if-else statement.</p>
 </div>
 </div>
 </div>
