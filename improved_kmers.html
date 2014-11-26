@@ -1737,7 +1737,7 @@ div#notebook {
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[1]:
+In&nbsp;[4]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -1790,10 +1790,15 @@ HANT
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let&#39;s start from a basic solution to the k-mer counting problem. If you&#39;ve done the introductory workshop, you might have come up with a similar solution yourself. </p>
-<p><strong>Exercise:</strong> If you have not already done so in the introductory workshop, try to solve this problem before you continue. Write a function called <code>count_kmers</code> which takes as input a string and an integer k, and returns a dictionary as output. The keys of the dictionary should be all the k-mers of length k that were seen, and the values should be the number of times each k-mer occurs in the string. Make sure to give your function a docstring! You&#39;ll be able to use your solution as the basis for the rest of the workshop. </p>
+<p><strong>Exercise:</strong> If you have not already done so in the introductory workshop, try to solve this problem before you continue. Write a function called <code>count_kmers</code> which takes as input a string and an integer k, and returns a dictionary as output. The keys of the dictionary should be all the k-mers that were seen, and the values should be the number of times each k-mer occurs in the string. Make sure to give your function a docstring! You&#39;ll be able to use your solution as the basis for the rest of the workshop. </p>
 <p>For example, your function should give the following result when called:</p>
 <pre><code class="language-python">count_kmers(<span class="string">"GATGAT"</span>,<span class="number">3</span>)
 {<span class="string">'ATG'</span>: <span class="number">1</span>, <span class="string">'GAT'</span>: <span class="number">2</span>, <span class="string">'TGA'</span>: <span class="number">1</span>}
+</code></pre>
+<p>and it should pass the following assertions:</p>
+<pre><code class="language-python"><span class="keyword">assert</span> count_kmers(<span class="string">"GATGAT"</span>,<span class="number">3</span>)[<span class="string">"GAT"</span>]==<span class="number">2</span>
+<span class="keyword">assert</span> count_kmers(<span class="string">"GATGAT"</span>,<span class="number">3</span>)[<span class="string">"ATG"</span>]==<span class="number">1</span>
+<span class="keyword">assert</span> len(count_kmers(<span class="string">"GATGAT"</span>,<span class="number">5</span>))==<span class="number">2</span>
 </code></pre>
 <p>The solution is written below, so free to stop here and try to solve this, and to ask for help if you get stuck. Asking for hints is a much better way to develop your understanding than reading the solution.</p>
 <p>A couple of hints: you will need to understand string slicing to find the k-mers, and you will need to think about where the starting position of the last k-mer in the string is - this depends on the length of the string, which you can find with <code>len()</code>. Remember you can use help() to look at the documentation for built-in functions. You may also need to check whether a k-mer is already in the dictionary before you try to increment the count. </p>
@@ -1821,18 +1826,35 @@ HANT
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[1]:
+In&nbsp;[5]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
 <div class="highlight"><pre><span class="k">def</span> <span class="nf">count_kmers</span><span class="p">(</span><span class="n">read</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    TBD: docstring</span>
+    <span class="sd">&quot;&quot;&quot;Count kmer occurrences in a given read.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    read : string</span>
+<span class="sd">        A single DNA sequence.</span>
+<span class="sd">    k : int</span>
+<span class="sd">        The value of k for which to count kmers.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    counts : dictionary, {&#39;string&#39;: int}</span>
+<span class="sd">        A dictionary of counts keyed by their individual kmers (strings</span>
+<span class="sd">        of length k).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; count_kmers(&quot;GATGAT&quot;, 3)</span>
+<span class="sd">    {&#39;ATG&#39;: 1, &#39;GAT&#39;: 2, &#39;TGA&#39;: 1}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c"># Calculate how many kmers of length k there are</span>
-    <span class="n">num_kmers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">read</span><span class="p">)</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="c"># Start with an empty dictionary</span>
     <span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c"># Calculate how many kmers of length k there are</span>
+    <span class="n">num_kmers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">read</span><span class="p">)</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="c"># Loop over the kmer start positions</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_kmers</span><span class="p">):</span>
         <span class="c"># Slice the string to get the kmer</span>
@@ -1863,7 +1885,7 @@ In&nbsp;[1]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[2]:
+In&nbsp;[6]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -1879,7 +1901,7 @@ In&nbsp;[2]:
 
 
 <div class="output_area"><div class="prompt output_prompt">
-    Out[2]:</div>
+    Out[6]:</div>
 
 
 <div class="output_text output_subarea output_pyout">
@@ -1897,7 +1919,7 @@ In&nbsp;[2]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[3]:
+In&nbsp;[7]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -1913,7 +1935,7 @@ In&nbsp;[3]:
 
 
 <div class="output_area"><div class="prompt output_prompt">
-    Out[3]:</div>
+    Out[7]:</div>
 
 
 <div class="output_text output_subarea output_pyout">
@@ -1931,7 +1953,7 @@ In&nbsp;[3]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[5]:
+In&nbsp;[8]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -1947,7 +1969,7 @@ In&nbsp;[5]:
 
 
 <div class="output_area"><div class="prompt output_prompt">
-    Out[5]:</div>
+    Out[8]:</div>
 
 
 <div class="output_text output_subarea output_pyout">
@@ -1972,6 +1994,445 @@ In&nbsp;[5]:
 <pre><code class="language-python">count_kmers([<span class="string">"GATGAT"</span>, <span class="string">"GATGAT"</span>, <span class="string">"CCGAT"</span>],<span class="number">3</span>)
 {<span class="string">'CGA'</span>: <span class="number">1</span>, <span class="string">'ATG'</span>: <span class="number">2</span>, <span class="string">'CCG'</span>: <span class="number">1</span>, <span class="string">'GAT'</span>: <span class="number">5</span>, <span class="string">'TGA'</span>: <span class="number">2</span>}
 </code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Libraries">Libraries<a class="anchor-link" href="#Libraries">&#182;</a></h2>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Often, some of the code we need to write has been written before, and we can reuse it. We do this by <em>importing</em> a Python <a href="gloss.html#library">library</a>. There are many libraries for Python, and some of them are very useful for scientific computing. </p>
+<p>To import a library, use <code>import</code>:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[9]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">random</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now all the functions in the random library are available to us.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[10]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+58
+73
+60
+8
+43
+90
+91
+39
+44
+79
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>One useful library is the <a href="http://biopython.org/wiki/Main_Page">collections</a> library, which you can load with</p>
+<pre><code class="language-python"><span class="keyword">import</span> collections
+</code></pre>
+<p>It provides several extra data structures: <code>namedtuple, dequeue, Counter, OrderedDict</code> and <code>defaultdict</code>. We&#39;re going to look at <code>defaultdict</code>.</p>
+<p>You might have noticed, in solving the basic k-mer counting problem, we had to deal with a slightly irritating issue: before incrementing any count, we had to check, every time, that the key was in the dictionary.</p>
+<pre><code class="language-python"><span class="comment"># Add the kmer to the dictionary if it's not there</span>
+<span class="keyword">if</span> kmer <span class="keyword">not</span> <span class="keyword">in</span> counts:
+    counts[kmer] = <span class="number">0</span>
+<span class="comment"># Increment the count for this kmer</span>
+counts[kmer] += <span class="number">1</span>
+</code></pre>
+<p>Trying to run <code>counts[kmer] += 1</code> without doing this will crash the program with a <code>KeyError</code>, because the key isn&#39;t in the dictionary. </p>
+<p>A similar pattern occurs whenever we use a dictionary to track a set of things, without knowing in advance what all the keys of the dictionary will be. </p>
+<p>Here&#39;s a similar problem: count the occurrence of each value in the following list.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[11]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">big_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span>
+       <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span>
+       <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span>
+       <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;6&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span>
+       <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span>
+       <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span>
+       <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span>
+       <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;7&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[12]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">big_list</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">num</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">:</span>
+        <span class="n">counts</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">counts</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+{&apos;1&apos;: 25, &apos;3&apos;: 21, &apos;5&apos;: 31, &apos;7&apos;: 22, &apos;6&apos;: 1}
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The <code>collections</code> library will let us handle this pattern more elegantly. Firstly, import it.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[13]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">collections</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>defaultdict</code> is a data type which behaves like a dictionary, but automatically initialises any key that doesn&#39;t exist. We have to specify what the types of the values should be. For instance:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[14]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="c"># A defaultdict with values of type int</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">counts</span><span class="p">[</span><span class="s">&#39;new_key&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[14]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+0
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Examining <code>counts[&#39;new_key&#39;]</code> caused it to be created with defaultdict&#39;s default value for ints, which is zero. We haven&#39;t tried to retrieve any other keys, so they don&#39;t exist yet:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[15]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">counts</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[15]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+defaultdict(&lt;type &apos;int&apos;&gt;, {&apos;new_key&apos;: 0})
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[16]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">counts</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[16]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+[&apos;new_key&apos;]
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can specify other data types:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[17]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">coloured_things</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+<span class="n">coloured_things</span><span class="p">[</span><span class="s">&#39;yellow&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[17]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+[]
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Examining <code>coloured_things[&#39;yellow&#39;]</code> caused it to be created with defaultdict&#39;s default value for lists, which is the empty list <code>[]</code>.</p>
+<p>This means that we can use <code>.append()</code> to build up lists without worrying about whether the lists already exist:</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[18]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">coloured_things</span><span class="p">[</span><span class="s">&#39;yellow&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;sun&#39;</span><span class="p">)</span>
+<span class="n">coloured_things</span><span class="p">[</span><span class="s">&#39;yellow&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;bananas&#39;</span><span class="p">)</span>
+<span class="n">coloured_things</span><span class="p">[</span><span class="s">&#39;green&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;grass&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[19]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">coloured_things</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[19]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+defaultdict(&lt;type &apos;list&apos;&gt;, {&apos;green&apos;: [&apos;grass&apos;], &apos;yellow&apos;: [&apos;sun&apos;, &apos;bananas&apos;]})
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Exercise:</strong> Use a defaultdict to alter your <code>count_kmers()</code> function so that it does not need to check whether a kmer is already in the dictionary.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There are many other useful libraries, far too many to cover. In general you will learn about these as you need them. A standard place to find Python libraries that you don&#39;t already have installed is the Python Package Index, PyPI: <a href="https://pypi.python.org/pypi">https://pypi.python.org/pypi</a></p>
+<p>The easiest tool to install new packages is <code>pip</code>, which you run from the command-line, with a call like</p>
+<pre><code>pip install collections
+</code></pre><p>If you are using Anaconda, you can also install libraries from the Anaconda package index using <code>conda</code> instead of <code>pip</code>.</p>
 </div>
 </div>
 </div>
@@ -2008,7 +2469,7 @@ In&nbsp;[5]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[7]:
+In&nbsp;[20]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -2028,11 +2489,13 @@ In&nbsp;[7]:
 <pre>
 LICENSE.md                  <span class="ansiblue">img</span>/                        kmer_counting.html
 README.md                   improved_hammingdist.html   kmer_counting.ipynb
-TODO                        improved_hammingdist.ipynb  <span class="ansiblue">old_base_img</span>/
+TODO                        improved_hammingdist.ipynb  notes.txt
+Untitled0.ipynb             improved_kmers.html         <span class="ansiblue">old_base_img</span>/
 <span class="ansiblue">css</span>/                        improved_kmers.ipynb        quick_fundamentals.html
-extrabits.html              index.html                  quick_fundamentals.ipynb
-extrabits.ipynb             intermediate.html           setup_python.html
-gloss.html                  intermediate2.ipynb         setup_python.ipynb
+example_reads.fastq         improved_kmers2.ipynb       quick_fundamentals.ipynb
+extrabits.html              index.html                  setup_python.html
+extrabits.ipynb             intermediate.html           setup_python.ipynb
+gloss.html                  intermediate2.ipynb         tiny_reads.fastq
 hammingdist.html            intermediate_old.ipynb
 hammingdist.ipynb           <span class="ansiblue">js</span>/
 
@@ -2063,7 +2526,7 @@ hammingdist.ipynb           <span class="ansiblue">js</span>/
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[8]:
+In&nbsp;[21]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -2096,7 +2559,7 @@ In&nbsp;[8]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[11]:
+In&nbsp;[22]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -2121,7 +2584,7 @@ In&nbsp;[11]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[12]:
+In&nbsp;[23]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -2138,7 +2601,8 @@ In&nbsp;[12]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Examine this file using a text editor, and you should see the new lines.</p>
+<p>Examine this file using a text editor, and you should see the text we just wrote out.</p>
+<p>There are Python libraries which give more advanced methods for reading and writing files than the built-in functions. For instance, the <a href="https://docs.python.org/2/library/csv.html">csv library</a> provides functions to read and write CSV files. In fact, there are also libraries designed to parse bioinformatics data formats such as FASTQ, but we&#39;re going to do this ourselves in order to learn how to work directly with files. </p>
 <p>Now let&#39;s try to read in our example data from <code>example_reads.fastq</code>. This file is in <a href="http://en.wikipedia.org/wiki/FASTQ_format">FASTQ format</a>, which is a very common way to receive data from NGS sequencing experiments. It represents a set of DNA sequences, or &quot;reads&quot;.</p>
 <p>First, let&#39;s just read the lines and print them out.</p>
 </div>
@@ -2147,7 +2611,7 @@ In&nbsp;[12]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[14]:
+In&nbsp;[24]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -2178,7 +2642,7 @@ In&nbsp;[14]:
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
 @HWUSI-EAS-100R_0001:7:1:1:701#TGACCA/1
-TCGTACCGTAAGGAACGGTGGACTGGATACGAGTGAGAATGTTGGCATCAGTAGCGCGATGTGGGTGAGAATCCCCCAG
+TCGTACCGTAAGGAACGGTGGACTGGATACGAGTGAGAATGTTGGGATAGATAGATAGATAGATAGATAGATAGATAGA
 +
 abaabbbb_^__Y_W&#96;_^U[\_a&#96;^^BaY&#96;\\\\__Z[\\^[]ZW\R[BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 @HWUSI-EAS-100R_0001:7:1:1:701#TGACCA/2
@@ -2194,7 +2658,7 @@ AAAAAAGCATCGACAAAAAAAATATGCTTGGTGCACGACATGTGTATCGAACCCTGGACACCCTGATTCAAAGCTAACT
 +
 abbbbbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 @HWUSI-EAS-100R_0001:7:1:2:928#TGACCA/1
-CCCGAAGGGATTTCCTCGATTAAGAGTAATGCAAGGGATGTCAAGTGTAGGTAAGGTTCTTCGCGTTGCTTCGAATTAA
+TAGATAGATATTCCTCGATTAAGAGTAATGCAAGGGATGTCAAGTGTAGGTAAGGTTCTTCGCTCGTACCGTAAGGAGT
 +
 abbbZa&#96;&#96;a&#96;abaaba&#96;aaaaaaYYVV&#96;&#96;aaa^&#96;a_^Y^ZV&#96;][\V_QJVQLYLXXLX_VWYSRABBBBBBBBBBBBBB
 
@@ -2211,7 +2675,7 @@ abbbZa&#96;&#96;a&#96;abaaba&#96;aaaaaaYYVV&#96;&#96;aaa^&#96;a_^Y^ZV&#96;][\V_Q
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is FASTQ data. Each sequencing read is represented by four lines, and it looks like there are just five reads in our example file. Let&#39;s explain these four lines:</p>
+<p>This is FASTQ data. Each sequencing read is represented by four lines, and it looks like there are just five reads in our example file. Here&#39;s the meaning of each four lines:</p>
 <pre><code>@HWUSI-EAS-100R_0001:7:1:1:701#TGACCA/1
 TCGTACCGTAAGGAACGGTGGACTGGATACGAGTGAGAATGTTGGCATCAGTAGCGCGATGTGGGTGAGAATCCCCCAG
 +
@@ -2244,7 +2708,7 @@ abaabbbb_^__Y_W`_^U[\_a`^^BaY`\\\\__Z[\\^[]ZW\R[BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[24]:
+In&nbsp;[25]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -2262,7 +2726,7 @@ In&nbsp;[24]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This is an indexing syntax we haven&#39;t looked at yet. Instead of just writing <code>all_lines[start:end]</code>, we&#39;ve written <code>all_lines[start:end:stride]</code>. The <em>stride</em> tells Python how many list items to skip at each step. It means &quot;start at row 1, go to the end, taking every 4th row&quot;.</p>
+<p>This is an indexing syntax we haven&#39;t looked at yet. Instead of just writing <code>all_lines[start:end]</code>, we&#39;ve written <code>all_lines[start:end:stride]</code>. The <em>stride</em> tells Python how many list items to skip at each step. It means &quot;start at the second row (index 1), go to the end, taking every 4th row&quot;.</p>
 <p>If this is confusing, don&#39;t worry about it too much at this point.</p>
 <p><code>dna_strings</code> should now look like this:</p>
 </div>
@@ -2292,11 +2756,11 @@ In&nbsp;[26]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-[&apos;TCGTACCGTAAGGAACGGTGGACTGGATACGAGTGAGAATGTTGGCATCAGTAGCGCGATGTGGGTGAGAATCCCCCAG&apos;,
+[&apos;TCGTACCGTAAGGAACGGTGGACTGGATACGAGTGAGAATGTTGGGATAGATAGATAGATAGATAGATAGATAGATAGA&apos;,
  &apos;GGCCTTAGGATTACACAATAACATACCTGTGTCGGTTTCAGTATAGTGCCATCCTTCTGTCTCTAGACACTCTTCCGTG&apos;,
  &apos;TTGGGATATCGCCAAGCGGTAAGGCAACGGACTTTGACTCCGTCATTCGCAGGTTCGAATCCTGCTATCCCAGCCAAAA&apos;,
  &apos;AAAAAAGCATCGACAAAAAAAATATGCTTGGTGCACGACATGTGTATCGAACCCTGGACACCCTGATTCAAAGCTAACT&apos;,
- &apos;CCCGAAGGGATTTCCTCGATTAAGAGTAATGCAAGGGATGTCAAGTGTAGGTAAGGTTCTTCGCGTTGCTTCGAATTAA&apos;]
+ &apos;TAGATAGATATTCCTCGATTAAGAGTAATGCAAGGGATGTCAAGTGTAGGTAAGGTTCTTCGCTCGTACCGTAAGGAGT&apos;]
 </pre>
 </div>
 
@@ -2331,9 +2795,9 @@ In&nbsp;[26]:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now that we&#39;re able to read in lines from a FASTQ file, we can use this together with our <code>count_kmers()</code> function to count the k-mers in real NGS sequence data.</p>
-<p><strong>Exercise:</strong> Write a function, <code>count_fastq_kmers()</code>, which takes a filename, reads in the DNA sequences, and counts the k-mers. It should return a dictionary of k-mer counts. This function allows you to analyse real sequencing data.</p>
+<p><strong>Exercise:</strong> Write a function, <code>count_fastq_kmers()</code>, which takes a filename , reads in the DNA sequences, and counts the k-mers. It should return a dictionary of k-mer counts. This function allows you to analyse real sequencing data.</p>
 <p>You can test your function by downloading this file: <a href="tiny_reads.fastq">tiny_reads.fastq</a> which should give the output</p>
-<pre><code class="language-python">count_fastq_kmers(<span class="string">"tiny_reads.fastq"</span>)
+<pre><code class="language-python">count_fastq_kmers(<span class="string">"tiny_reads.fastq"</span>, <span class="number">3</span>)
 {<span class="string">'CGA'</span>: <span class="number">1</span>, <span class="string">'ATG'</span>: <span class="number">2</span>, <span class="string">'CCG'</span>: <span class="number">1</span>, <span class="string">'GAT'</span>: <span class="number">5</span>, <span class="string">'TGA'</span>: <span class="number">2</span>}
 </code></pre>
 </div>
@@ -2342,11 +2806,11 @@ In&nbsp;[26]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[]:
+In&nbsp;[34]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="n">ngs_kmers</span> <span class="o">=</span> <span class="n">count_fastq_kmers</span><span class="p">(</span><span class="s">&quot;example_reads.fastq&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">ngs_kmers</span> <span class="o">=</span> <span class="n">count_fastq_kmers</span><span class="p">(</span><span class="s">&quot;example_reads.fastq&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2360,6 +2824,50 @@ In&nbsp;[]:
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>ngs_kmers</code> is now a dictionary of counts. Even with only five example sequences, using real NGS data means that there will be a lot of unique k-mers and our count dictionary is probably quite big.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[35]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="nb">len</span><span class="p">(</span><span class="n">ngs_kmers</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[35]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+320
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, many of these k-mers probably only occur once. In a later workshop, you&#39;ll see how to use plotting functions to display information like this. For now, let&#39;s just try to filter out everything with a count below 3.</p>
+<p><strong>Exercise:</strong> Write a loop which prints out each k-mer, and the count for that k-mer, only if the count is 3 or more. You&#39;ll have to think about how to iterate through the items in a dictionary.</p>
 </div>
 </div>
 </div>
