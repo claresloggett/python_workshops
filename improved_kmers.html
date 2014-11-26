@@ -2469,7 +2469,7 @@ defaultdict(&lt;type &apos;list&apos;&gt;, {&apos;green&apos;: [&apos;grass&apos
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[20]:
+In&nbsp;[37]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -2487,17 +2487,15 @@ In&nbsp;[20]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-LICENSE.md                  <span class="ansiblue">img</span>/                        kmer_counting.html
-README.md                   improved_hammingdist.html   kmer_counting.ipynb
-TODO                        improved_hammingdist.ipynb  notes.txt
-Untitled0.ipynb             improved_kmers.html         <span class="ansiblue">old_base_img</span>/
-<span class="ansiblue">css</span>/                        improved_kmers.ipynb        quick_fundamentals.html
-example_reads.fastq         improved_kmers2.ipynb       quick_fundamentals.ipynb
-extrabits.html              index.html                  setup_python.html
-extrabits.ipynb             intermediate.html           setup_python.ipynb
-gloss.html                  intermediate2.ipynb         tiny_reads.fastq
-hammingdist.html            intermediate_old.ipynb
-hammingdist.ipynb           <span class="ansiblue">js</span>/
+LICENSE.md                  hammingdist.html            kmer_counting.html
+README.md                   hammingdist.ipynb           kmer_counting.ipynb
+TODO                        <span class="ansiblue">img</span>/                        <span class="ansiblue">old_base_img</span>/
+Untitled0.ipynb             improved_hammingdist.html   quick_fundamentals.html
+<span class="ansiblue">css</span>/                        improved_hammingdist.ipynb  quick_fundamentals.ipynb
+example_reads.fastq         improved_kmers.html         setup_python.html
+extrabits.html              improved_kmers.ipynb        setup_python.ipynb
+extrabits.ipynb             index.html                  tiny_reads.fastq
+gloss.html                  <span class="ansiblue">js</span>/
 
 </pre>
 </div>
@@ -2799,6 +2797,20 @@ In&nbsp;[26]:
 <p>You can test your function by downloading this file: <a href="tiny_reads.fastq">tiny_reads.fastq</a> which should give the output</p>
 <pre><code class="language-python">count_fastq_kmers(<span class="string">"tiny_reads.fastq"</span>, <span class="number">3</span>)
 {<span class="string">'CGA'</span>: <span class="number">1</span>, <span class="string">'ATG'</span>: <span class="number">2</span>, <span class="string">'CCG'</span>: <span class="number">1</span>, <span class="string">'GAT'</span>: <span class="number">5</span>, <span class="string">'TGA'</span>: <span class="number">2</span>}
+</code></pre>
+<p>Here are some assertions using <code>example_reads.fastq</code>, that you can run to test your function:</p>
+<pre><code class="language-python">ngs_kmers_6 = count_fastq_kmers(<span class="string">"example_reads.fastq"</span>, <span class="number">6</span>)
+<span class="comment"># Specific k-mer counts from this dataset</span>
+<span class="keyword">assert</span> ngs_kmers_6[<span class="string">"ATAGTG"</span>]==<span class="number">1</span>
+<span class="keyword">assert</span> ngs_kmers_6[<span class="string">"AGATAG"</span>]==<span class="number">8</span>
+<span class="comment"># A k-mer that isn't in the reads, isn't in the dictionary</span>
+<span class="keyword">assert</span> <span class="string">"ATCAAA"</span> <span class="keyword">not</span> <span class="keyword">in</span> ngs_kmers_6
+<span class="comment"># K-mers are of length k</span>
+<span class="keyword">assert</span> len(ngs_kmers_6.keys()[<span class="number">0</span>])==<span class="number">6</span>
+<span class="comment"># If k-mers are the length of the reads, we get back the five reads</span>
+<span class="keyword">assert</span> len(count_fastq_kmers(<span class="string">"example_reads.fastq"</span>,<span class="number">79</span>))==<span class="number">5</span>
+<span class="comment"># k==1 returns the four individual letters</span>
+<span class="keyword">assert</span> len(count_fastq_kmers(<span class="string">"example_reads.fastq"</span>,<span class="number">1</span>))==<span class="number">4</span>
 </code></pre>
 </div>
 </div>
