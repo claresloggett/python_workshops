@@ -1680,7 +1680,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Pythonic-python-1:-Hamming-distance">Pythonic python 1: Hamming distance<a class="anchor-link" href="#Pythonic-python-1:-Hamming-distance">&#182;</a></h1>
+<h1 id="Pythonic-python-2:-k-mer-counting">Pythonic python 2: k-mer counting<a class="anchor-link" href="#Pythonic-python-2:-k-mer-counting">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -1690,7 +1690,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This workshop is designed to introduce Python to bioinformaticians. It follows on from the introductory workshops on Python programming. In particular, we&#39;ll build on our solution to the <a href="hammingdist.html">Hamming distance workshop</a>, and use the various language features we learn to improve our code.</p>
+<p>This workshop is designed to introduce Python to bioinformaticians. It follows on from the introductory workshops on Python programming. In particular, we&#39;ll build on our solution to the <a href="kmer_counting.html">k-mer counting workshop</a>, and use the various language features we learn to improve our code.</p>
 </div>
 </div>
 </div>
@@ -1754,7 +1754,7 @@ In&nbsp;[1]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Hamming-distance">Hamming distance<a class="anchor-link" href="#Hamming-distance">&#182;</a></h2>
+<h2 id="K-mers">K-mers<a class="anchor-link" href="#K-mers">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1764,18 +1764,13 @@ In&nbsp;[1]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In this workshop, we&#39;ll use our solution to the novice workshop on Hamming Distance as an example. </p>
-<p>The Hamming distance between two strings is the number of positions at which they have different characters.</p>
-<p>For instance, compare these strings:</p>
-<pre><code>GATTACA
-GACTATA
-</code></pre><p>They are different at two locations:</p>
-<pre><code>GATTACA
-  |  |
-GACTATA
-</code></pre><p>So the Hamming distance is 2.</p>
-<p>Hamming distance is the simplest edit distance algorithm for string alignment. It tells us the edit distance between two strings if we&#39;re only allowed to make substitutions - no insertions or deletions.</p>
-<p>We will consider the Hamming distance to be defined only if the two strings are the same lengths. So the Hamming distance between &quot;CAT&quot; and &quot;SUPERCALIFRAGILISTICEXPIALIDOCIOUS&quot; is undefined.</p>
+<p>The k-mers in a string are all the substrings of length <code>k</code>. So, given the string <code>&quot;ELEPHANT&quot;</code>, and k-mer length <code>k=4</code>, the k-mers are:</p>
+<pre><code>ELEP
+LEPH
+EPHA
+PHAN
+HANT
+</code></pre><p>Finding all the k-mers in a set of DNA sequences is useful in several bioinformatics applications. One of the best known uses is to perform genome assembly by constructing a de Bruijn graph.</p>
 </div>
 </div>
 </div>
@@ -1784,7 +1779,7 @@ GACTATA
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Hamming-distance:-initial-solution">Hamming distance: initial solution<a class="anchor-link" href="#Hamming-distance:-initial-solution">&#182;</a></h2>
+<h2 id="K-mer-counting:-initial-solution">K-mer counting: initial solution<a class="anchor-link" href="#K-mer-counting:-initial-solution">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -1794,16 +1789,14 @@ GACTATA
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let&#39;s illustrate some basic Python syntax using a solution to the Hamming distance problem. If you&#39;ve done the introductory workshop, you might have come up with a similar solution yourself. </p>
-<p><strong>Exercise:</strong> If you already have some experience with Python and want to test yourself on the basics, try to solve this problem before you continue. Write a function called <code>hamming_distance</code> which takes as input two strings, and returns the number of characters which do not match. You may assume the two strings are the same length. You&#39;ll be able to use your solution as the basis for the rest of the workshop.</p>
-<p>For example, your function should give the following results when called:</p>
-<pre><code class="language-python">hamming_distance(<span class="string">"GATTACA"</span>,<span class="string">"GACTATA"</span>)
-<span class="number">2</span>
-hamming_distance(<span class="string">"AGCAGACCCACAA"</span>,<span class="string">"TGCAGCGAAACGA"</span>)
-<span class="number">6</span>
+<p>Let&#39;s start from a basic solution to the k-mer counting problem. If you&#39;ve done the introductory workshop, you might have come up with a similar solution yourself. </p>
+<p><strong>Exercise:</strong> If you have not already done so in the introductory workshop, try to solve this problem before you continue. Write a function called <code>count_kmers</code> which takes as input a string and an integer k, and returns a dictionary as output. The keys of the dictionary should be all the k-mers of length k that were seen, and the values should be the number of times each k-mer occurs in the string. Make sure to give your function a docstring! You&#39;ll be able to use your solution as the basis for the rest of the workshop. </p>
+<p>For example, your function should give the following result when called:</p>
+<pre><code class="language-python">count_kmers(<span class="string">"GATGAT"</span>,<span class="number">3</span>)
+{<span class="string">'ATG'</span>: <span class="number">1</span>, <span class="string">'GAT'</span>: <span class="number">2</span>, <span class="string">'TGA'</span>: <span class="number">1</span>}
 </code></pre>
 <p>The solution is written below, so free to stop here and try to solve this, and to ask for help if you get stuck. Asking for hints is a much better way to develop your understanding than reading the solution.</p>
-<p>A couple of hints: you will need to understand strings, loops, and conditionals. You will probably also want to use the built-in Python functions <code>range()</code> and <code>len()</code>. Remember you can use <code>help()</code> to look at the documentation for these built-in functions.</p>
+<p>A couple of hints: you will need to understand string slicing to find the k-mers, and you will need to think about where the starting position of the last k-mer in the string is - this depends on the length of the string, which you can find with <code>len()</code>. Remember you can use help() to look at the documentation for built-in functions. You may also need to check whether a k-mer is already in the dictionary before you try to increment the count. </p>
 <p><strong>SPOILER ALERT:</strong> If you are new to programming, and would like to do the novice workshop, you might want to do it before looking at the solution below!</p>
 </div>
 </div>
@@ -1813,13 +1806,57 @@ hamming_distance(<span class="string">"AGCAGACCCACAA"</span>,<span class="string
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Here is one possible solution to the Hamming distance problem. The basic plan here is:</p>
+<p>Here is one possible solution to the k-mer counting problem. The basic plan here is:</p>
 <ul>
-<li>check the length of the strings so we know how many characters we need to compare</li>
-<li>look at each pair of corresponding characters in turn by looping over the indices</li>
-<li>for each pair of characters that are not the same, add 1 to the Hamming distance</li>
-<li>return the final count</li>
+<li>start with an empty dictionary to hold our results</li>
+<li>find the length of the string L, and use L and k to work out how many k-mers there are in the string</li>
+<li>loop over the starting positions of the k-mers</li>
+<li>at each position, extract the k-mer by taking a slice of the string</li>
+<li>if the k-mer is not already in the dictionary, add it with a count of 0</li>
+<li>increment the count for this k-mer (if we just added it, it will now be 1)</li>
 </ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[1]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">count_kmers</span><span class="p">(</span><span class="n">read</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TBD: docstring</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># Calculate how many kmers of length k there are</span>
+    <span class="n">num_kmers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">read</span><span class="p">)</span> <span class="o">-</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="c"># Start with an empty dictionary</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c"># Loop over the kmer start positions</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_kmers</span><span class="p">):</span>
+        <span class="c"># Slice the string to get the kmer</span>
+        <span class="n">kmer</span> <span class="o">=</span> <span class="n">read</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">k</span><span class="p">]</span>
+        <span class="c"># Add the kmer to the dictionary if it&#39;s not there</span>
+        <span class="k">if</span> <span class="n">kmer</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">counts</span><span class="p">:</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">kmer</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c"># Increment the count for this kmer</span>
+        <span class="n">counts</span><span class="p">[</span><span class="n">kmer</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="c"># Return the final counts</span>
+    <span class="k">return</span> <span class="n">counts</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can now call our function by passing in a string and value for k:</p>
 </div>
 </div>
 </div>
@@ -1830,34 +1867,32 @@ In&nbsp;[2]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="c"># Return the Hamming distance between string1 and string2.</span>
-<span class="c"># string1 and string2 should be the same length.</span>
-<span class="k">def</span> <span class="nf">hamming_distance</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">):</span> 
-    <span class="c"># Start with a distance of zero, and count up</span>
-    <span class="n">distance</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="c"># Loop over the indices of the string</span>
-    <span class="n">L</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string1</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
-        <span class="c"># Add 1 to the distance if these two characters are not equal</span>
-        <span class="k">if</span> <span class="n">string1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">string2</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-            <span class="n">distance</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="c"># Return the final count of differences</span>
-    <span class="k">return</span> <span class="n">distance</span>
+<div class="highlight"><pre><span class="n">count_kmers</span><span class="p">(</span><span class="s">&quot;GATGAT&quot;</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[2]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+{&apos;ATG&apos;: 1, &apos;GAT&apos;: 2, &apos;TGA&apos;: 1}
+</pre>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
+
 </div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can call this function by passing in two strings as the arguments <code>string1</code> and <code>string2</code>:</p>
+
 </div>
 </div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -1866,49 +1901,7 @@ In&nbsp;[3]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="n">example_dist</span> <span class="o">=</span> <span class="n">hamming_distance</span><span class="p">(</span><span class="s">&quot;GATTACA&quot;</span><span class="p">,</span> <span class="s">&quot;GACTATA&quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">example_dist</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-2
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Of course, now that we have a function, we can reuse it on any pair of strings, including ones where the answer is not so obvious.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[4]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">hamming_distance</span><span class="p">(</span><span class="s">&quot;ACTGTGCAATACCTAAGTGAAAGGGGTGCATAGATCATTCTTTCGTTACCTCGGGTGCTATGA&quot;</span><span class="p">,</span>
-                 <span class="s">&quot;ACTCCTCTGTGTCTAAGTGAAAGGGGTGCTTGCAGGGTAATCCTTCCACCTGATACCGACTCG&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">count_kmers</span><span class="p">(</span><span class="s">&quot;GATGAT&quot;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -1920,103 +1913,12 @@ In&nbsp;[4]:
 
 
 <div class="output_area"><div class="prompt output_prompt">
-    Out[4]:</div>
+    Out[3]:</div>
 
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-32
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Exercise:</strong> To check everything is working properly, write or paste this function into your own Notebook and calculate the Hamming distance between &quot;AGCAGACCCACAA&quot; and &quot;TGCAGCGAAACGA&quot;.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This Hamming distance solution works, but there&#39;s definitely room for improvement. As we go through some code features and tips and tricks of Python, we&#39;ll try to use them to improve this Hamming distance solution.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="More-tricks-with-strings">More tricks with strings<a class="anchor-link" href="#More-tricks-with-strings">&#182;</a></h2>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The first thing we&#39;re going to try to fix is documentation, and for this we need to learn more about strings. We have comments in our function, but Python has better documentation methods.</p>
-<p>We&#39;ll also print out strings to test our code as we learn, so it&#39;s worth taking some time at the start to learn more about using them.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="String-formatting">String formatting<a class="anchor-link" href="#String-formatting">&#182;</a></h3>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Say we want to print out some debugging information to see what our program is doing. For instance, imagine we&#39;re trying to talk about these variables:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[4]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">hamming_distance</span><span class="p">(</span><span class="s">&quot;AGCAGACCCACAA&quot;</span><span class="p">,</span><span class="s">&quot;TGCAGCGAAACGA&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[4]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-6
+{&apos;AT&apos;: 2, &apos;GA&apos;: 2, &apos;TG&apos;: 1}
 </pre>
 </div>
 
@@ -2033,33 +1935,7 @@ In&nbsp;[5]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="n">string1</span> <span class="o">=</span> <span class="s">&quot;GATTACA&quot;</span>
-<span class="n">string2</span> <span class="o">=</span> <span class="s">&quot;GACTATA&quot;</span>
-<span class="n">L</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string1</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>You may have already seen string concatenation, where we add strings together, and the <code>str()</code> function which converts values to strings. This will let us build a string with our variables in it, but it can get quite clunky to write:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[6]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;String 1 is &quot;</span> <span class="o">+</span> <span class="n">string1</span> <span class="o">+</span> <span class="s">&quot;, string 2 is &quot;</span> <span class="o">+</span> <span class="n">string2</span> <span class="o">+</span> <span class="s">&quot;. The lengths are &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">L</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">count_kmers</span><span class="p">(</span><span class="s">&quot;GATGAT&quot;</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -2070,13 +1946,16 @@ In&nbsp;[6]:
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-String 1 is GATTACA, string 2 is GACTATA. The lengths are 7.
+<div class="output_area"><div class="prompt output_prompt">
+    Out[5]:</div>
 
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+{&apos;ATGAT&apos;: 1, &apos;GATGA&apos;: 1}
 </pre>
 </div>
+
 </div>
 
 </div>
@@ -2088,7 +1967,41 @@ String 1 is GATTACA, string 2 is GACTATA. The lengths are 7.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>More convenient and flexible string formatting in Python can be done with the <code>.format()</code> method, which is used on strings. It looks like this:</p>
+<p><strong>Exercise 1:</strong> Type or paste this function into your own Notebook and check that it gives the same results as above.</p>
+<p><strong>Exercise 2:</strong> Modify your <code>count_kmers()</code> function so that instead of taking a string, it takes in a list of strings (representing a set of reads) and counts the kmer totals across all of them together. You still only need to return one dictionary. So, for instance, your function should return the following result:</p>
+<pre><code class="language-python">count_kmers([<span class="string">"GATGAT"</span>, <span class="string">"GATGAT"</span>, <span class="string">"CCGAT"</span>],<span class="number">3</span>)
+{<span class="string">'CGA'</span>: <span class="number">1</span>, <span class="string">'ATG'</span>: <span class="number">2</span>, <span class="string">'CCG'</span>: <span class="number">1</span>, <span class="string">'GAT'</span>: <span class="number">5</span>, <span class="string">'TGA'</span>: <span class="number">2</span>}
+</code></pre>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Reading-and-writing-files">Reading and writing files<a class="anchor-link" href="#Reading-and-writing-files">&#182;</a></h2>
+</div>
+</div>
+</div>
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If we want to count k-mers in real sequencing data, we&#39;ll be dealing with a lot of data. We can&#39;t type the strings in by hand! We need to know how to read in experimental data from a file. </p>
+<p>Here&#39;s an example file containing some sequence data: <a href="example_reads.fastq">example_reads.fastq</a>. Download this file to your computer by right-clicking it, and save it in the same directory you are running IPython Notebook from.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Firstly, you can see what files are present using <code>%ls</code>, a special IPython command. These commands, which start with <code>%</code>, are called &quot;magics&quot;. <code>%ls</code> in IPython Notebook is the same as running <code>ls</code> from the command line, and will list all files in the directory. </p>
+<p>Try running this command now. The output you see will depend on the computer you&#39;re on. If you saved the example reads file to the directory you&#39;re running IPython Notebook in, you should see it listed.</p>
 </div>
 </div>
 </div>
@@ -2099,7 +2012,7 @@ In&nbsp;[7]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;String 1 is {0}, string 2 is {1}. The lengths are {2}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span>
+<div class="highlight"><pre><span class="o">%</span><span class="k">ls</span>
 </pre></div>
 
 </div>
@@ -2113,7 +2026,15 @@ In&nbsp;[7]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-String 1 is GATTACA, string 2 is GACTATA. The lengths are 7.
+LICENSE.md                  <span class="ansiblue">img</span>/                        kmer_counting.html
+README.md                   improved_hammingdist.html   kmer_counting.ipynb
+TODO                        improved_hammingdist.ipynb  <span class="ansiblue">old_base_img</span>/
+<span class="ansiblue">css</span>/                        improved_kmers.ipynb        quick_fundamentals.html
+extrabits.html              index.html                  quick_fundamentals.ipynb
+extrabits.ipynb             intermediate.html           setup_python.html
+gloss.html                  intermediate2.ipynb         setup_python.ipynb
+hammingdist.html            intermediate_old.ipynb
+hammingdist.ipynb           <span class="ansiblue">js</span>/
 
 </pre>
 </div>
@@ -2128,7 +2049,14 @@ String 1 is GATTACA, string 2 is GACTATA. The lengths are 7.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>.format()</code> method prints its first argument into the &quot;replacement fields&quot; surrounded by curly braces <code>{}</code> in the string. The first argument goes into <code>{0}</code>, the second into <code>{1}</code>, and so on. There&#39;s nothing to stop us from using a replacement field more than once:</p>
+<p>The most basic way to open a file for reading or writing is with the built-in <code>open()</code> command. This looks like</p>
+<pre><code class="language-python">file_handle = open(filename, mode)
+</code></pre>
+<p>where <code>mode</code> specifies how the file should be opened. Some important options for <code>mode</code> include <code>&quot;r&quot;</code> for reading and <code>&quot;w&quot;</code> for writing. </p>
+<p>When we&#39;ve finished, we can close the file with</p>
+<pre><code class="language-python">file_handle.close()
+</code></pre>
+<p>If we open a file for writing that doesn&#39;t exist, it will be created. Let&#39;s try creating a new file and writing some text to it.</p>
 </div>
 </div>
 </div>
@@ -2139,40 +2067,20 @@ In&nbsp;[8]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;String 1 is {0}, string 2 is {1}. The lengths are {2}.</span><span class="se">\n</span><span class="s">The Hamming Distance between {0} and {1} is {3}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> 
-                                                                                                                      <span class="n">string2</span><span class="p">,</span> 
-                                                                                                                      <span class="n">L</span><span class="p">,</span> 
-                                                                                                                      <span class="n">hamming_distance</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">)))</span>
+<div class="highlight"><pre><span class="n">notefile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;notes.txt&quot;</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-String 1 is GATTACA, string 2 is GACTATA. The lengths are 7.
-The Hamming Distance between GATTACA and GACTATA is 2
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Notice that here we have added a &quot;\n&quot; to the string, and that Python printed it as a newline. We&#39;ll look at this in more detail in a moment.</p>
+<p><strong>Exercise:</strong> Our file handle, <code>notefile</code>, is a variable which we use to access the file. What is the type of this variable?</p>
 </div>
 </div>
 </div>
@@ -2181,87 +2089,9 @@ The Hamming Distance between GATTACA and GACTATA is 2
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It&#39;s also possible to use named keywords instead of numbers, like so:</p>
+<p>We can write text to the file with a command like</p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[9]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="s">&quot;The Hamming Distance between {s1} and {s2} is {dist}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">s1</span><span class="o">=</span><span class="n">string1</span><span class="p">,</span> <span class="n">s2</span><span class="o">=</span><span class="n">string2</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="n">hamming_distance</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[9]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-&apos;The Hamming Distance between GATTACA and GACTATA is 2&apos;
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The replacement fields have many options to change the way variables are displayed. For instance, we can change the number of decimal places printed, or whether a string is left-aligned. We can&#39;t cover these here, but you can look these options up in the <a href="https://docs.python.org/2/library/string.html#formatstrings">format string syntax</a> documentation.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Escape-characters-and-multi-line-strings">Escape characters and multi-line strings<a class="anchor-link" href="#Escape-characters-and-multi-line-strings">&#182;</a></h3>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Above, we wrote &quot;\n&quot; in a string, and it caused Python to print a newline (move down to the next line). </p>
-<p>A backslash \ indicates an <em>escape character</em>, which means that the character after the backslash is not printed normally, but treated as a special character. &quot;\n&quot; inserts a newline, and &quot;\t&quot; inserts a tab. </p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[10]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">s</span> <span class="o">=</span> <span class="s">&quot;Line 1.</span><span class="se">\n</span><span class="s">Line 2.</span><span class="se">\n\t\t</span><span class="s">Line 3 is indented with two tabs.&quot;</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
@@ -2270,28 +2100,10 @@ In&nbsp;[11]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">notefile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&quot;Hello world!</span><span class="se">\n</span><span class="s">This is a new line.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-Line 1.
-Line 2.
-		Line 3 is indented with two tabs.
-
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -2301,7 +2113,8 @@ Line 2.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Using a backslash in a string can also be used to &#39;escape&#39; a character that would otherwise have a special meaning, like a quote: </p>
+<p>Notice that we explicitly wrote in &quot;\n&quot; as a newline. We could also write in a series of lines using <code>notefile.writelines()</code>.</p>
+<p>Once we&#39;ve finished, we close the file with <code>.close()</code>.</p>
 </div>
 </div>
 </div>
@@ -2312,26 +2125,10 @@ In&nbsp;[12]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;The two types of single-quote characters are </span><span class="se">\&quot;</span><span class="s"> and </span><span class="se">\&#39;</span><span class="s">.&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">notefile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-The two types of single-quote characters are &quot; and &apos;.
-
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -2341,47 +2138,9 @@ The two types of single-quote characters are &quot; and &apos;.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>But what if you want to write an actual backslash in your string, not use it to escape another character? Since backslash itself has a special meaning, the way to write is to escape the backslash itself!</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[13]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;The escape character is </span><span class="se">\\</span><span class="s">.&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-The escape character is \.
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If we have a very long string that will span multiple lines, and we want it to be readable, there is a particularly convenient method: the triple-quote operator, &quot;&quot;&quot; or &#39;&#39;&#39;. Everything from the first triple-quote to the next will be part of the string, even if it spans multiple lines. Whitespace characters like tabs or spaces, and non-triple quote characters, will just be included as part of the string.</p>
+<p>Examine this file using a text editor, and you should see the new lines.</p>
+<p>Now let&#39;s try to read in our example data from <code>example_reads.fastq</code>. This file is in <a href="http://en.wikipedia.org/wiki/FASTQ_format">FASTQ format</a>, which is a very common way to receive data from NGS sequencing experiments. It represents a set of DNA sequences, or &quot;reads&quot;.</p>
+<p>First, let&#39;s just read the lines and print them out.</p>
 </div>
 </div>
 </div>
@@ -2392,215 +2151,19 @@ In&nbsp;[14]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="n">bulldog</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;... clutching out, he found his arms full of totally unexpected bulldog.</span>
+<div class="highlight"><pre><span class="c"># Open the file for reading</span>
+<span class="c"># Use b for &quot;binary&quot; mode, which is sometimes necessary on Windows</span>
+<span class="n">fastq_filehandle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&quot;example_reads.fastq&quot;</span><span class="p">,</span> <span class="s">&quot;rb&quot;</span><span class="p">)</span>
 
-<span class="s">&quot;Get out!&quot; whispered Sam tensely, recovering his faculties with a jerk. &quot;Go away!&quot;</span>
-<span class="s">&#39;&#39;&#39;</span>
-</pre></div>
+<span class="c"># Loop over each line in the file</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">fastq_filehandle</span><span class="p">:</span>
+    <span class="c"># Use the built-in .strip() method to remove whitespace and newlines from the line</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="c"># Print it out</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[15]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">bulldog</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-... clutching out, he found his arms full of totally unexpected bulldog.
-
-&quot;Get out!&quot; whispered Sam tensely, recovering his faculties with a jerk. &quot;Go away!&quot;
-
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Strings created this way are normal strings: they can be indexed, sliced etc.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[16]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">bulldog</span><span class="p">[</span><span class="mi">53</span><span class="p">:</span><span class="mi">71</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[16]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-&apos;unexpected bulldog&apos;
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[17]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">bulldog</span><span class="p">[</span><span class="mi">72</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[17]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-&apos;\n&apos;
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Docstrings">Docstrings<a class="anchor-link" href="#Docstrings">&#182;</a></h2>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A <em>docstring</em> is a string which Python interprets as documentation. Any string placed at the start of a function definition will be interpreted as a docstring. </p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[18]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="s">&quot;Return two times x.&quot;</span>
-    <span class="k">return</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[19]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">double</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[19]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-8
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Docstrings are a very useful convention for human readability, and what&#39;s more, they are also treated as documentation by Python itself. If we now use the built-in <code>help()</code> function:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[20]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">help</span><span class="p">(</span><span class="n">double</span><span class="p">)</span>
+<span class="c"># Close the file</span>
+<span class="n">fastq_filehandle</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -2614,140 +2177,26 @@ In&nbsp;[20]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-Help on function double in module __main__:
-
-double(x)
-    Return two times x.
-
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>It&#39;s a good idea to include a docstring in all your function definitions!</p>
-<p>Docstrings can also be used in other Python objects such as class definitions (in object-oriented programming) and in Python scripts themselves (by adding a string at the top of the script file).</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Often we&#39;ll want to write a longer docstring than will fit on one line. The triple-quote operator is perfect for this.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[21]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">double</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Take a numeric value x.</span>
-<span class="sd">    Return two times x.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Ideally, a function docstring should tell us:</p>
-<ul>
-<li>what the function is for</li>
-<li>what the inputs mean, and the expected types</li>
-<li>what the output will be, and its type</li>
-</ul>
-<p>There is a standard for describing all this information which is followed by numpy, and which is a nice convention to follow. That standard is described <a href="https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt">here</a></p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Exercise 1:</strong> Add a docstring to your <code>hamming_distance</code> function to describe what it does. Test it with the <code>help()</code> function. </p>
-<p><strong>Exercise 2:</strong> Optionally, upgrade your docstring to a numpy-style docstring.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Python-style-iteration">Python-style iteration<a class="anchor-link" href="#Python-style-iteration">&#182;</a></h2>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We&#39;ve seen that for loops in Python have the general form</p>
-<pre><code class="language-python"><span class="keyword">for</span> item <span class="keyword">in</span> iterable_variable:
-    do_something
-</code></pre>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This means that we can loop over the characters of a string directly, like</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[22]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="s">&quot;CAT&quot;</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">char</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-CCC
-AAA
-TTT
+@HWUSI-EAS-100R_0001:7:1:1:701#TGACCA/1
+TCGTACCGTAAGGAACGGTGGACTGGATACGAGTGAGAATGTTGGCATCAGTAGCGCGATGTGGGTGAGAATCCCCCAG
++
+abaabbbb_^__Y_W&#96;_^U[\_a&#96;^^BaY&#96;\\\\__Z[\\^[]ZW\R[BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+@HWUSI-EAS-100R_0001:7:1:1:701#TGACCA/2
+GGCCTTAGGATTACACAATAACATACCTGTGTCGGTTTCAGTATAGTGCCATCCTTCTGTCTCTAGACACTCTTCCGTG
++
+abbbbaBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+@HWUSI-EAS-100R_0001:7:1:1:1658#TGACCA/1
+TTGGGATATCGCCAAGCGGTAAGGCAACGGACTTTGACTCCGTCATTCGCAGGTTCGAATCCTGCTATCCCAGCCAAAA
++
+a&#96;_\X_ababbbbaa_aa&#96;[&#96;_TZa&#96;&#96;a]Z^aaa&#96;&#96;\_[_]X]&#96;Y\Y\Q[TXLMT^XQLR^[OV[ZVZZ]YJDW\MWJW
+@HWUSI-EAS-100R_0001:7:1:1:1658#TGACCA/2
+AAAAAAGCATCGACAAAAAAAATATGCTTGGTGCACGACATGTGTATCGAACCCTGGACACCCTGATTCAAAGCTAACT
++
+abbbbbBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+@HWUSI-EAS-100R_0001:7:1:2:928#TGACCA/1
+CCCGAAGGGATTTCCTCGATTAAGAGTAATGCAAGGGATGTCAAGTGTAGGTAAGGTTCTTCGCGTTGCTTCGAATTAA
++
+abbbZa&#96;&#96;a&#96;abaaba&#96;aaaaaaYYVV&#96;&#96;aaa^&#96;a_^Y^ZV&#96;][\V_QJVQLYLXXLX_VWYSRABBBBBBBBBBBBBB
 
 </pre>
 </div>
@@ -2762,57 +2211,33 @@ TTT
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Or over any kind of list:</p>
+<p>This is FASTQ data. Each sequencing read is represented by four lines, and it looks like there are just five reads in our example file. Let&#39;s explain these four lines:</p>
+<pre><code>@HWUSI-EAS-100R_0001:7:1:1:701#TGACCA/1
+TCGTACCGTAAGGAACGGTGGACTGGATACGAGTGAGAATGTTGGCATCAGTAGCGCGATGTGGGTGAGAATCCCCCAG
++
+abaabbbb_^__Y_W`_^U[\_a`^^BaY`\\\\__Z[\\^[]ZW\R[BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+</code></pre><p>The first line, starting with <code>@</code>, is the name of the sequence. The second line is the DNA sequence itself, which is what we&#39;re interested in. The third line may repeat the read name, and the fourth line is the ascii-encoded quality scores showing how confident we are that the sequencing experiment gave the correct results. </p>
+<p>We will ignore the quality scores for our purposes, and just read in the DNA sequences. This means that out of every four lines, we&#39;d like to just store the second. We&#39;d like to end up with a list of five DNA sequence strings.</p>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[23]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">odd_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
-<span class="n">odd_strings</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;one&quot;</span><span class="p">,</span> <span class="s">&quot;three&quot;</span><span class="p">,</span> <span class="s">&quot;five&quot;</span><span class="p">,</span> <span class="s">&quot;seven&quot;</span><span class="p">,</span> <span class="s">&quot;nine&quot;</span><span class="p">,</span> <span class="s">&quot;eleven&quot;</span><span class="p">]</span>
-
-<span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">odd_strings</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-one
-three
-five
-seven
-nine
-eleven
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>There are several built-in Python functions that can help take advantage of this kind of iteration.</p>
-<p><code>enumerate()</code> will return an iterable together with its index values, where each item is replaced by a tuple:</p>
+<p><strong>Exercise:</strong> Write a function called <code>read_all_rows()</code> which takes in a filename and produces a list of strings, one per row of the file. You can do this with a loop or, if you&#39;re feeling ambitious, a list comprehension. You should use <code>strip()</code> on every line to remove any whitespaces or newlines from the beginning and end of the line. </p>
+<p><em>Note:</em> File handles have a method, <code>.readlines()</code>, which will read all rows from a file handle into a list. You can use this function if you want to, but it won&#39;t strip the newlines for you.</p>
+<p>If you&#39;re feeling really ambitious, try to work out how to store only every second row out of each four (i.e. only the DNA sequences). We&#39;ll show a way to do this in a moment.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>If you&#39;ve written a function to store all rows, you can use indexing to get the second row out of every four:</p>
 </div>
 </div>
 </div>
@@ -2823,104 +2248,23 @@ In&nbsp;[24]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">odd_strings</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">all_lines</span> <span class="o">=</span> <span class="n">read_all_rows</span><span class="p">(</span><span class="s">&quot;example_reads.fastq&quot;</span><span class="p">)</span>
+<span class="n">dna_strings</span> <span class="o">=</span> <span class="n">all_lines</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">4</span><span class="p">]</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-(0, &apos;one&apos;)
-(1, &apos;three&apos;)
-(2, &apos;five&apos;)
-(3, &apos;seven&apos;)
-(4, &apos;nine&apos;)
-(5, &apos;eleven&apos;)
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This can be useful when we actually care about the indices:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[25]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">num</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">odd_numbers</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Odd number {0} is {1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-Odd number 1 is 1
-Odd number 2 is 3
-Odd number 3 is 5
-Odd number 4 is 7
-Odd number 5 is 9
-Odd number 6 is 11
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This is a more concise and readable alternative to writing </p>
-<pre><code class="language-python"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(odd_numbers)):
-</code></pre>
-<p>and using indexing.</p>
-<p>Also notice that we&#39;ve written </p>
-<pre><code class="language-python"><span class="keyword">for</span> (i,num) <span class="keyword">in</span>...
-</code></pre>
-<p>Each item in <code>enumerate(odd_numbers)</code> is a tuple, and this syntax assigns each of these tuples in turn to the tuple of variables <code>(i,num)</code>.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Another useful function is <code>zip()</code>. <code>zip()</code> takes multiple lists and turns them into one list of tuples, like so:</p>
+<p>This is an indexing syntax we haven&#39;t looked at yet. Instead of just writing <code>all_lines[start:end]</code>, we&#39;ve written <code>all_lines[start:end:stride]</code>. The <em>stride</em> tells Python how many list items to skip at each step. It means &quot;start at row 1, go to the end, taking every 4th row&quot;.</p>
+<p>If this is confusing, don&#39;t worry about it too much at this point.</p>
+<p><code>dna_strings</code> should now look like this:</p>
 </div>
 </div>
 </div>
@@ -2931,7 +2275,7 @@ In&nbsp;[26]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="nb">zip</span><span class="p">(</span><span class="n">odd_numbers</span><span class="p">,</span> <span class="n">odd_strings</span><span class="p">)</span>
+<div class="highlight"><pre><span class="n">dna_strings</span>
 </pre></div>
 
 </div>
@@ -2948,12 +2292,11 @@ In&nbsp;[26]:
 
 <div class="output_text output_subarea output_pyout">
 <pre>
-[(1, &apos;one&apos;),
- (3, &apos;three&apos;),
- (5, &apos;five&apos;),
- (7, &apos;seven&apos;),
- (9, &apos;nine&apos;),
- (11, &apos;eleven&apos;)]
+[&apos;TCGTACCGTAAGGAACGGTGGACTGGATACGAGTGAGAATGTTGGCATCAGTAGCGCGATGTGGGTGAGAATCCCCCAG&apos;,
+ &apos;GGCCTTAGGATTACACAATAACATACCTGTGTCGGTTTCAGTATAGTGCCATCCTTCTGTCTCTAGACACTCTTCCGTG&apos;,
+ &apos;TTGGGATATCGCCAAGCGGTAAGGCAACGGACTTTGACTCCGTCATTCGCAGGTTCGAATCCTGCTATCCCAGCCAAAA&apos;,
+ &apos;AAAAAAGCATCGACAAAAAAAATATGCTTGGTGCACGACATGTGTATCGAACCCTGGACACCCTGATTCAAAGCTAACT&apos;,
+ &apos;CCCGAAGGGATTTCCTCGATTAAGAGTAATGCAAGGGATGTCAAGTGTAGGTAAGGTTCTTCGCGTTGCTTCGAATTAA&apos;]
 </pre>
 </div>
 
@@ -2968,67 +2311,7 @@ In&nbsp;[26]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This makes it easy to iterate over multiple lists at once:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[27]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="n">num</span><span class="p">,</span><span class="n">numstring</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">odd_numbers</span><span class="p">,</span> <span class="n">odd_strings</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Number {0} is written {1}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">numstring</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-Number 1 is written one.
-Number 3 is written three.
-Number 5 is written five.
-Number 7 is written seven.
-Number 9 is written nine.
-Number 11 is written eleven.
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="exercise-1-">Exercise 1:</h4>
-<p>Write a loop which uses <code>odd_numbers</code> and <code>odd_strings</code> to print out</p>
-<pre><code>Odd number 1 is 1, written one.
-Odd number 2 is 3, written three.
-Odd number 3 is 5, written five.
-....
-</code></pre><p>There is more than one way to solve this. Compare your solution to your neighbour&#39;s.</p>
-<h4 id="exercise-2-">Exercise 2:</h4>
-<p>In our Hamming distance function, we have to loop over two strings simultaneously to compare the characters. So, we currently use a rather clunky construction: we use <code>len()</code> to find the length of the strings, <code>range()</code> to generate numbers, and then we index the strings at every step:</p>
-<pre><code class="language-python">L = len(string1)
-<span class="keyword">for</span> i <span class="keyword">in</span> range(L):
-    <span class="keyword">if</span> string1[i] != string2[i]:
-        distance += <span class="number">1</span>
-</code></pre>
-<p>Rewrite your Hamming distance function to take advantage of <code>zip()</code> so that you don&#39;t need to use string indexing at all.</p>
+<p>Note that reading in all the rows like this, and then picking out every fourth, is not a very memory-efficient solution, as we read all the rows into the variable <code>all_lines</code> even though we weren&#39;t interested in keeping most of them. Can you think of better approaches?</p>
 </div>
 </div>
 </div>
@@ -3037,7 +2320,7 @@ Odd number 3 is 5, written five.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="List-comprehensions">List comprehensions<a class="anchor-link" href="#List-comprehensions">&#182;</a></h3>
+<h3 id="Counting-real-k-mers">Counting real k-mers<a class="anchor-link" href="#Counting-real-k-mers">&#182;</a></h3>
 </div>
 </div>
 </div>
@@ -3047,73 +2330,23 @@ Odd number 3 is 5, written five.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>List comprehensions are a concise way to create lists in Python, where you would ordinarily have to use a <code>for</code> loop. They act like very compact loops, and in some situations, they can make your program quite clear to read.</p>
-<p>The basic form of a list comprehension is:</p>
-<pre><code class="language-python">[f(x) <span class="keyword">for</span> x <span class="keyword">in</span> list]
+<p>Now that we&#39;re able to read in lines from a FASTQ file, we can use this together with our <code>count_kmers()</code> function to count the k-mers in real NGS sequence data.</p>
+<p><strong>Exercise:</strong> Write a function, <code>count_fastq_kmers()</code>, which takes a filename, reads in the DNA sequences, and counts the k-mers. It should return a dictionary of k-mer counts. This function allows you to analyse real sequencing data.</p>
+<p>You can test your function by downloading this file: <a href="tiny_reads.fastq">tiny_reads.fastq</a> which should give the output</p>
+<pre><code class="language-python">count_fastq_kmers(<span class="string">"tiny_reads.fastq"</span>)
+{<span class="string">'CGA'</span>: <span class="number">1</span>, <span class="string">'ATG'</span>: <span class="number">2</span>, <span class="string">'CCG'</span>: <span class="number">1</span>, <span class="string">'GAT'</span>: <span class="number">5</span>, <span class="string">'TGA'</span>: <span class="number">2</span>}
 </code></pre>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>For instance, here is list comprehension that just doubles every number in the original list:</p>
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[28]:
+In&nbsp;[]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="p">[</span><span class="n">num</span><span class="o">*</span><span class="mi">2</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">odd_numbers</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[28]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-[2, 6, 10, 14, 18, 22]
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Of course, it&#39;s easy to assign the new list to a variable:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[29]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">doubled_odd_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">num</span><span class="o">*</span><span class="mi">2</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">odd_numbers</span><span class="p">]</span>
+<div class="highlight"><pre><span class="n">ngs_kmers</span> <span class="o">=</span> <span class="n">count_fastq_kmers</span><span class="p">(</span><span class="s">&quot;example_reads.fastq&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -3126,418 +2359,7 @@ In&nbsp;[29]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To create <code>doubled_odd_numbers</code> using a loop, we would have had to write:</p>
-<pre><code class="language-python">doubled_odd_numbers = []
-<span class="keyword">for</span> num <span class="keyword">in</span> odd_numbers:
-    doubled_odd_numbers.append(<span class="number">2</span>*num)
-</code></pre>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Which of these makes it most clear what we are trying to do?</p>
-<p>Here&#39;s another simple example that uses the uppercase conversion method for strings, <code>.upper()</code>: </p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[30]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="p">[</span><span class="n">each_string</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">each_string</span> <span class="ow">in</span> <span class="n">odd_strings</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[30]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-[&apos;ONE&apos;, &apos;THREE&apos;, &apos;FIVE&apos;, &apos;SEVEN&apos;, &apos;NINE&apos;, &apos;ELEVEN&apos;]
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The longer form of list comprehensions includes a conditional, and looks like</p>
-<pre><code class="language-python">[f(x) <span class="keyword">for</span> x <span class="keyword">in</span> list <span class="keyword">if</span> condition]
-</code></pre>
-<p>For instance, all the odd number names that are shorter than five letters long:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[31]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="p">[</span><span class="n">each_string</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">each_string</span> <span class="ow">in</span> <span class="n">odd_strings</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">each_string</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[31]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-[&apos;ONE&apos;, &apos;FIVE&apos;, &apos;NINE&apos;]
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Or we can leave out the <code>.upper()</code> and just get the value itself, filtered by the condition. We still need the <code>for</code> keyword though, so our list comprehension ends up looking list this:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[32]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="p">[</span><span class="n">each_string</span> <span class="k">for</span> <span class="n">each_string</span> <span class="ow">in</span> <span class="n">odd_strings</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">each_string</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[32]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-[&apos;one&apos;, &apos;five&apos;, &apos;nine&apos;]
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="challenge-hard-">Challenge (hard!)</h4>
-<p>If you have a Hamming distance function that uses <code>zip()</code>, can you think of a way to replace the <code>for</code> loop in your function with a list comprehension?</p>
-<p>There are a couple of ways to do this, but it takes some lateral thinking. As a hint, if you&#39;re going to produce a list of values, you will need to use a function like <code>len()</code> or <code>sum()</code> to convert them into your final number that gives Hamming distance.</p>
-<p>Do you think that this list comprehension makes your program easier to understand, or harder? In general, if you ever find that using a list comprehension is actually making your program less clear rather than more clear, you should consider using a loop instead - it may not be quite as concise, but clarity is much more important.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Error-handling:-Exceptions">Error handling: Exceptions<a class="anchor-link" href="#Error-handling:-Exceptions">&#182;</a></h3>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>One serious problem with our current solution is the way it handles errors.</p>
-<p>We only have a good definition for Hamming distance when the strings are the same length. In our function, we&#39;ve assumed <code>string1</code> and <code>string2</code> will always be the same length. But what if they&#39;re not?</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[33]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">hamming_distance</span><span class="p">(</span><span class="s">&quot;SHORT&quot;</span><span class="p">,</span><span class="s">&quot;THIS_IS_A_LONG_STRING&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[33]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-4
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[34]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">hamming_distance</span><span class="p">(</span><span class="s">&quot;THIS_IS_A_LONG_STRING&quot;</span><span class="p">,</span><span class="s">&quot;SHORT&quot;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_pyerr">
-<pre>
-<span class="ansired">---------------------------------------------------------------------------</span>
-<span class="ansired">IndexError</span>                                Traceback (most recent call last)
-<span class="ansigreen">&lt;ipython-input-34-8877eff1c5e5&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
-<span class="ansigreen">----&gt; 1</span><span class="ansired"> </span>hamming_distance<span class="ansiblue">(</span><span class="ansiblue">&quot;THIS_IS_A_LONG_STRING&quot;</span><span class="ansiblue">,</span><span class="ansiblue">&quot;SHORT&quot;</span><span class="ansiblue">)</span><span class="ansiblue"></span>
-
-<span class="ansigreen">&lt;ipython-input-2-79e0fea0a434&gt;</span> in <span class="ansicyan">hamming_distance</span><span class="ansiblue">(string1, string2)</span>
-<span class="ansigreen">      8</span>     <span class="ansigreen">for</span> i <span class="ansigreen">in</span> range<span class="ansiblue">(</span>L<span class="ansiblue">)</span><span class="ansiblue">:</span><span class="ansiblue"></span>
-<span class="ansigreen">      9</span>         <span class="ansired"># Add 1 to the distance if these two characters are not equal</span><span class="ansiblue"></span><span class="ansiblue"></span>
-<span class="ansigreen">---&gt; 10</span><span class="ansired">         </span><span class="ansigreen">if</span> string1<span class="ansiblue">[</span>i<span class="ansiblue">]</span> <span class="ansiblue">!=</span> string2<span class="ansiblue">[</span>i<span class="ansiblue">]</span><span class="ansiblue">:</span><span class="ansiblue"></span>
-<span class="ansigreen">     11</span>             distance <span class="ansiblue">+=</span> <span class="ansicyan">1</span><span class="ansiblue"></span>
-<span class="ansigreen">     12</span>     <span class="ansired"># Return the final count of differences</span><span class="ansiblue"></span><span class="ansiblue"></span>
-
-<span class="ansired">IndexError</span>: string index out of range</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>This doesn&#39;t look very good. We get a different result depending on which order we pass the strings in - that&#39;s definitely not something we want. And neither result really makes sense.</p>
-<p>In the first case, <code>L=len(string1)</code> took on a value of <code>5</code>, and our function just compared &quot;SHORT&quot; to &quot;THIS_&quot;. It didn&#39;t warn us about all the extra, un-matched letters.</p>
-<p>In the second case, we get an error message, which is arguably a better thing to happen. It isn&#39;t a very informative error message though, especially for someone who&#39;s trying to reuse our function and doesn&#39;t know the details of how it works: &quot;IndexError: string index out of range&quot;</p>
-<p><strong>Stop and think: do you understand what went wrong in this case?</strong></p>
-<p>What&#39;s happened here is that <code>L=len(string1)</code> took on a value of <code>21</code>. Since <code>string2</code> doesn&#39;t have 21 letters, the attempt to index <code>string2[i]</code> failed as soon as we reached <code>i==5</code>.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>If we are practicing defensive programming, we should check that the inputs to our function are correct, and give an appropriate, informative error message if they&#39;re not. This is more useful behaviour than reporting &quot;IndexError&quot;, and <em>much</em> more useful behaviour than reporting no errors and just giving the wrong answer.</p>
-<p>The standard way to create an error in Python is to <strong>raise</strong> an <strong>Exception</strong>. Exceptions are a data type specifically used to represent different types of errors. You&#39;ve actually seen them already: every time we write a program that crashes, the error message that gets printed out is the result of an Exception. This includes the <code>IndexError</code> message our Hamming distance function gives currently.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>We can <em>manually</em> create an error with the <code>raise()</code> command. </p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[35]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="k">raise</span><span class="p">(</span><span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Oh no! Something bad happened!&quot;</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_pyerr">
-<pre>
-<span class="ansired">---------------------------------------------------------------------------</span>
-<span class="ansired">Exception</span>                                 Traceback (most recent call last)
-<span class="ansigreen">&lt;ipython-input-35-8f5202952286&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
-<span class="ansigreen">----&gt; 1</span><span class="ansired"> </span><span class="ansigreen">raise</span><span class="ansiblue">(</span>Exception<span class="ansiblue">(</span><span class="ansiblue">&quot;Oh no! Something bad happened!&quot;</span><span class="ansiblue">)</span><span class="ansiblue">)</span><span class="ansiblue"></span>
-
-<span class="ansired">Exception</span>: Oh no! Something bad happened!</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Here we have created a new Exception with <code>Exception(error_message)</code>, and passed it to <code>raise()</code>, which stops the program and prints the error. Exceptions are objects and can be assigned to variables:</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[36]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="n">my_error</span> <span class="o">=</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Oh no!&quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">&quot;Nothing bad has happened yet.&quot;</span><span class="p">)</span>
-<span class="k">raise</span><span class="p">(</span><span class="n">my_error</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-Nothing bad has happened yet.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_pyerr">
-<pre>
-<span class="ansired">---------------------------------------------------------------------------</span>
-<span class="ansired">Exception</span>                                 Traceback (most recent call last)
-<span class="ansigreen">&lt;ipython-input-36-5f9d4b0bab10&gt;</span> in <span class="ansicyan">&lt;module&gt;</span><span class="ansiblue">()</span>
-<span class="ansigreen">      1</span> my_error <span class="ansiblue">=</span> Exception<span class="ansiblue">(</span><span class="ansiblue">&quot;Oh no!&quot;</span><span class="ansiblue">)</span><span class="ansiblue"></span>
-<span class="ansigreen">      2</span> <span class="ansigreen">print</span><span class="ansiblue">(</span><span class="ansiblue">&quot;Nothing bad has happened yet.&quot;</span><span class="ansiblue">)</span><span class="ansiblue"></span>
-<span class="ansigreen">----&gt; 3</span><span class="ansired"> </span><span class="ansigreen">raise</span><span class="ansiblue">(</span>my_error<span class="ansiblue">)</span><span class="ansiblue"></span>
-
-<span class="ansired">Exception</span>: Oh no!</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="exercise">Exercise</h4>
-<p>Add a test to the start of your <code>hamming_distance()</code> function to test that the length of <code>string1</code> is the same as the length of <code>string2</code>. If they are different, raise an Exception with an appropriate error message. Test out your new, improved function with some incorrect strings.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Note:</strong> There are actually many different subclasses of Exceptions, some of which you&#39;ve probably seen: <code>IndexError</code>, <code>TypeError</code>, <code>ValueError</code>, etc. You can find the (long) list of Exception types for Python 2 at <a href="https://docs.python.org/2/library/exceptions.html">https://docs.python.org/2/library/exceptions.html</a> . If you&#39;d like, you can make your program even more debugger-friendly by creating the right type of Exception to describe what went wrong - for instance, if <code>hamming_distance()</code> is called with strings of different lengths, that is probably a <code>ValueError</code>. For our purposes today it is fine to just create a generic <code>Exception</code>.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Catching-exceptions">Catching exceptions<a class="anchor-link" href="#Catching-exceptions">&#182;</a></h3>
-</div>
-</div>
-</div>
-
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A nice side-effect of Python&#39;s method of reporting errors is that we can have our program <em>ignore</em> certain types of errors if we choose to, or handle them differently. This is done with a try-except block. We <em>try</em> to execute some code, and if it fails, we can choose what to do about the errors.</p>
-<p>The basic form is</p>
-<pre><code class="language-python"><span class="keyword">try</span>:
-    do_something
-<span class="keyword">except</span>:
-    handle_errors
-</code></pre>
-<p>The code in the <code>except</code> block is only called if the code in the <code>try</code> block crashes. It&#39;s a little like an if-else statement.</p>
+<p><code>ngs_kmers</code> is now a dictionary of counts. Even with only five example sequences, using real NGS data means that there will be a lot of unique k-mers and our count dictionary is probably quite big.</p>
 </div>
 </div>
 </div>
