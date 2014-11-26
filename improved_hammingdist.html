@@ -2094,21 +2094,18 @@ String 1 is GATTACA, string 2 is GACTATA. The lengths are 7.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The <code>.format()</code> method prints its first argument into the &quot;replacement fields&quot; surrounded by curly braces <code>{}</code> in the string. The first argument goes into <code>{0}</code>, the second into <code>{1}</code>, and so on. There&#39;s nothing to stop us from using a replacement field more than once:</p>
+<p>The <code>.format()</code> method prints its arguments into the &quot;replacement fields&quot; surrounded by curly braces <code>{}</code> in the string. It automatically tries to convert variables to strings as it does so. The first argument goes into <code>{0}</code>, the second into <code>{1}</code>, and so on. There&#39;s nothing to stop us from using a replacement field more than once:</p>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[48]:
+In&nbsp;[49]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;String length is {0}.</span><span class="se">\n</span><span class="s">The distance between {0} and {1} is {3}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> 
-                                                                              <span class="n">string2</span><span class="p">,</span> 
-                                                                              <span class="n">L</span><span class="p">,</span> 
-                                                                              <span class="n">hamming_distance</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">)))</span>
+<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;Strings are {0} and {1}, length is {2}.</span><span class="se">\n</span><span class="s">The distance between {0} and {1} is {3}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">hamming_distance</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">)))</span>
 </pre></div>
 
 </div>
@@ -2122,7 +2119,7 @@ In&nbsp;[48]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-String length is GATTACA.
+Strings are GATTACA and GACTATA, length is 7.
 The distance between GATTACA and GACTATA is 2
 
 </pre>
@@ -2190,7 +2187,7 @@ In&nbsp;[10]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The replacement fields have many options to change the way variables are displayed. For instance, we can change the number of decimal places printed, or whether a string is left-aligned. We can&#39;t cover these here, but you can look these options up in the <a href="https://docs.python.org/2/library/string.html#formatstrings">format string syntax</a> documentation.</p>
+<p>The replacement fields have many options to change the way variables are displayed. For instance, we can change the number of decimal places printed, or whether a string is left-aligned. We can&#39;t cover these here, but you can look up these options in the <a href="https://docs.python.org/2/library/string.html#formatstrings">format string syntax</a> documentation.</p>
 </div>
 </div>
 </div>
@@ -2307,7 +2304,7 @@ The two types of single-quote characters are &quot; and &apos;.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>But what if you want to write an actual backslash in your string, not use it to escape another character? Since backslash itself has a special meaning, the way to write is to escape the backslash itself!</p>
+<p>But what if you want to write an actual backslash in your string, not use it to escape another character? Since backslash itself has a special meaning, the way to write it is to escape the backslash itself!</p>
 </div>
 </div>
 </div>
