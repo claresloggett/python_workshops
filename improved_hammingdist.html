@@ -2135,14 +2135,14 @@ String 1 is GATTACA, string 2 is GACTATA. The lengths are 7.
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[9]:
+In&nbsp;[48]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;String 1 is {0}, string 2 is {1}. The lengths are {2}.</span><span class="se">\n</span><span class="s">The Hamming Distance between {0} and {1} is {3}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> 
-                                                                                                                      <span class="n">string2</span><span class="p">,</span> 
-                                                                                                                      <span class="n">L</span><span class="p">,</span> 
-                                                                                                                      <span class="n">hamming_distance</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">)))</span>
+<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&quot;String length is {0}.</span><span class="se">\n</span><span class="s">The distance between {0} and {1} is {3}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> 
+                                                                              <span class="n">string2</span><span class="p">,</span> 
+                                                                              <span class="n">L</span><span class="p">,</span> 
+                                                                              <span class="n">hamming_distance</span><span class="p">(</span><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">)))</span>
 </pre></div>
 
 </div>
@@ -2156,8 +2156,8 @@ In&nbsp;[9]:
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>
-String 1 is GATTACA, string 2 is GACTATA. The lengths are 7.
-The Hamming Distance between GATTACA and GACTATA is 2
+String length is GATTACA.
+The distance between GATTACA and GACTATA is 2
 
 </pre>
 </div>
@@ -2678,7 +2678,7 @@ In&nbsp;[22]:
 <li>what the inputs mean, and the expected types</li>
 <li>what the output will be, and its type</li>
 </ul>
-<p>There is a standard for describing all this information which is followed by numpy, and which is a good convention to follow. That standard is described <a href="https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt">here</a>. Not only will this make it easy to understand your programs, it also means that you can use tools to automatically produce good documentation from your code. Numpy reference pages, like <a href="http://docs.scipy.org/doc/numpy/reference/routines.random.html">these</a>, are produced this way.</p>
+<p>There is a standard for describing all this information which is followed by numpy, and which is a good convention to follow. That standard is described <a href="https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt">here</a>. Not only will this make it easy to understand your programs, it also means that you can use tools to automatically produce good documentation from your code. Numpy reference pages, like <a href="http://docs.scipy.org/doc/numpy/reference/routines.random.html">these</a>, are produced this way. You can even use the example input and output in such a docstring to automatically generate tests for your code.</p>
 </div>
 </div>
 </div>
