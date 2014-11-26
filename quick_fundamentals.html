@@ -3280,6 +3280,92 @@ False
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p>Dictionaries have several useful methods: two of the most important are <code>.keys()</code> and <code>.values()</code>, which return lists.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[37]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">heights</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[37]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+[&apos;Fiona&apos;, &apos;Quentin&apos;, &apos;Mary&apos;, &apos;Sam&apos;]
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[38]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="n">heights</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[38]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+[167, 167, 180, 201]
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Remember that these lists are not guaranteed to be in the same order!</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Dictionaries: algorithmic considerations</strong></p>
 <p>In fact, dictionaries (and sets) are an implementation of <a href="http://en.wikipedia.org/wiki/Hash_table">hash tables</a>, and work by carrying out a hash function on the keys to decide where to store them in the computer&#39;s memory. This means that dictionaries are very fast at retrieving information. Even if you have a very large dictionary, finding an item in it using a key takes a roughly constant amount of time that does not grow with the size of the dictionary - the performance of the algorithm is approximately O(1). </p>
 <p>This also means that the keys of a dictionary must be <em>immutable</em> types, because if the key is altered in-place, its expected location in memory will become wrong. So, lists can&#39;t be used as dictionary keys - you will get an error if you try. But tuples, strings, and numbers all can. </p>
@@ -3290,7 +3376,7 @@ False
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[37]:
+In&nbsp;[39]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -3381,7 +3467,7 @@ In&nbsp;[37]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[38]:
+In&nbsp;[40]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -3438,7 +3524,7 @@ In&nbsp;[38]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[39]:
+In&nbsp;[41]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -3485,7 +3571,7 @@ thirteen
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[40]:
+In&nbsp;[42]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -3501,7 +3587,7 @@ In&nbsp;[40]:
 
 
 <div class="output_area"><div class="prompt output_prompt">
-    Out[40]:</div>
+    Out[42]:</div>
 
 
 <div class="output_text output_subarea output_pyout">
@@ -3528,7 +3614,7 @@ In&nbsp;[40]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[41]:
+In&nbsp;[43]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -3601,7 +3687,7 @@ In&nbsp;[41]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[42]:
+In&nbsp;[44]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -3656,7 +3742,7 @@ num is greater than 100
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[43]:
+In&nbsp;[45]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -3706,79 +3792,11 @@ True
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[44]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="bp">True</span> <span class="ow">and</span> <span class="bp">False</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[44]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-False
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
-In&nbsp;[45]:
-</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class="highlight"><pre><span class="bp">True</span> <span class="ow">or</span> <span class="bp">False</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">
-    Out[45]:</div>
-
-
-<div class="output_text output_subarea output_pyout">
-<pre>
-True
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">
 In&nbsp;[46]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="ow">not</span> <span class="bp">True</span>
+<div class="highlight"><pre><span class="bp">True</span> <span class="ow">and</span> <span class="bp">False</span>
 </pre></div>
 
 </div>
@@ -3812,7 +3830,7 @@ In&nbsp;[47]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="p">(</span><span class="n">num</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">num</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">)</span>
+<div class="highlight"><pre><span class="bp">True</span> <span class="ow">or</span> <span class="bp">False</span>
 </pre></div>
 
 </div>
@@ -3846,7 +3864,7 @@ In&nbsp;[48]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
-<div class="highlight"><pre><span class="ow">not</span> <span class="p">(</span><span class="n">num</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span>
+<div class="highlight"><pre><span class="ow">not</span> <span class="bp">True</span>
 </pre></div>
 
 </div>
@@ -3859,6 +3877,74 @@ In&nbsp;[48]:
 
 <div class="output_area"><div class="prompt output_prompt">
     Out[48]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+False
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[49]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="p">(</span><span class="n">num</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">num</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[49]:</div>
+
+
+<div class="output_text output_subarea output_pyout">
+<pre>
+True
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">
+In&nbsp;[50]:
+</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class="highlight"><pre><span class="ow">not</span> <span class="p">(</span><span class="n">num</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">
+    Out[50]:</div>
 
 
 <div class="output_text output_subarea output_pyout">
@@ -3895,7 +3981,7 @@ False
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[49]:
+In&nbsp;[51]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -3958,7 +4044,7 @@ num is more than 200
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[50]:
+In&nbsp;[52]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -3983,7 +4069,7 @@ In&nbsp;[50]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[51]:
+In&nbsp;[53]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -3999,7 +4085,7 @@ In&nbsp;[51]:
 
 
 <div class="output_area"><div class="prompt output_prompt">
-    Out[51]:</div>
+    Out[53]:</div>
 
 
 <div class="output_text output_subarea output_pyout">
@@ -4017,7 +4103,7 @@ In&nbsp;[51]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[52]:
+In&nbsp;[54]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -4058,7 +4144,7 @@ In&nbsp;[52]:
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">
-In&nbsp;[53]:
+In&nbsp;[55]:
 </div>
 <div class="inner_cell">
     <div class="input_area">
@@ -4074,7 +4160,7 @@ In&nbsp;[53]:
 
 
 <div class="output_area"><div class="prompt output_prompt">
-    Out[53]:</div>
+    Out[55]:</div>
 
 
 <div class="output_text output_subarea output_pyout">
