@@ -3192,7 +3192,7 @@ In&nbsp;[32]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Or we can leave out the <code>.upper()</code> and just get the value itself, filtered by the condition. We still need the <code>for</code> keyword though, so our list comprehension ends up looking list this:</p>
+<p>Or we can leave out the <code>.upper()</code> and just get the value itself, filtered by the condition. We still need the <code>for</code> keyword though, so our list comprehension ends up looking like this:</p>
 </div>
 </div>
 </div>
@@ -3344,7 +3344,7 @@ In&nbsp;[35]:
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This doesn&#39;t look very good. We get a different result depending on which order we pass the strings in - that&#39;s definitely not something we want. And neither result really makes sense.</p>
 <p>In the first case, <code>L=len(string1)</code> took on a value of <code>5</code>, and our function just compared &quot;SHORT&quot; to &quot;THIS_&quot;. It didn&#39;t warn us about all the extra, un-matched letters.</p>
-<p>In the second case, we get an error message, which is arguably a better thing to happen. It isn&#39;t a very informative error message though, especially for someone who&#39;s trying to reuse our function and doesn&#39;t know the details of how it works: &quot;IndexError: string index out of range&quot;</p>
+<p>In the second case, we get an error message, which is arguably a better thing to happen. It isn&#39;t a very informative error message though, especially for someone who&#39;s trying to reuse our function and doesn&#39;t know the details of how it works: &quot;IndexError: string index out of range&quot;.</p>
 <p><strong>Stop and think: do you understand what went wrong in this case?</strong></p>
 <p>What&#39;s happened here is that <code>L=len(string1)</code> took on a value of <code>21</code>. Since <code>string2</code> doesn&#39;t have 21 letters, the attempt to index <code>string2[i]</code> failed as soon as we reached <code>i==5</code>.</p>
 </div>
@@ -3464,8 +3464,7 @@ Nothing bad has happened yet.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="exercise">Exercise</h4>
-<p>Add a test to the start of your <code>hamming_distance()</code> function to test that the length of <code>string1</code> is the same as the length of <code>string2</code>. If they are different, raise an Exception with an appropriate error message. Test out your new, improved function with some incorrect strings.</p>
+<p><strong>Exercise:</strong> Add a test to the start of your <code>hamming_distance()</code> function to test that the length of <code>string1</code> is the same as the length of <code>string2</code>. If they are different, raise an Exception with an appropriate error message. Test out your new, improved function with some incorrect strings.</p>
 </div>
 </div>
 </div>
@@ -3530,7 +3529,7 @@ In&nbsp;[38]:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We can find the average of many lists, with a loop:</p>
+<p>Since we have a function, we can find the average of many lists, with a loop:</p>
 </div>
 </div>
 </div>
@@ -3700,7 +3699,7 @@ Empty
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As you&#39;ve probably discovered by now, it&#39;s very easy to make mistakes while programming. How can we try to find out if there are still errors lurking in the code we have? And how can we guard against introducing new errors in code as we modify it?</p>
-<p>One way is to add <a href="gloss.html#assertion">assertions</a> to our program so that it checks itself as it runs. An <em>assertion</em> is a statement which will raise an exception, causing the program to crash, if the condition in it is not true. For instance:</p>
+<p>One way is to add <a href="gloss.html#assertion">assertions</a> to our program so that it checks itself as it runs. An <em>assertion</em> is a statement which will raise an exception, causing the program to stop, if the condition in it is not true. For instance:</p>
 </div>
 </div>
 </div>
