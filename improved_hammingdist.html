@@ -3530,7 +3530,7 @@ Nothing bad has happened yet.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A nice side-effect of Python&#39;s method of reporting errors is that we can have our program choose what to do about certain kinds of errors, or even ignore them completely instead of crashing. This is done with a try-except block. We <em>try</em> to execute some code, and if it fails, we can choose what to do about the errors.</p>
+<p>A nice side-effect of Python&#39;s method of reporting errors is that we can have our program choose what to do about certain kinds of errors, or even ignore them completely, instead of crashing. This is done with a try-except block. We <em>try</em> to execute some code, and if it fails, we can choose what to do about the errors.</p>
 <p>The basic form is</p>
 <pre><code class="language-python"><span class="keyword">try</span>:
     do_something
@@ -3716,7 +3716,8 @@ Empty
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Any kinds of exception other than a ZeroDivisionError will still cause the program to crash, which is a good thing - we want to know if something unexpected goes wrong.</p>
+<p>Even though an exception was raised (twice!), the program kept running, and it was handled by our <code>except</code> block.</p>
+<p>Any kinds of exception other than a <code>ZeroDivisionError</code> will still cause the program to crash, which is a good thing - we want to know if something unexpected goes wrong.</p>
 </div>
 </div>
 </div>
@@ -3921,7 +3922,7 @@ In&nbsp;[47]:
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It looks like we are getting the answer <code>10</code> instead of the expected <code>0</code>.</p>
 <p><strong>Exercise:</strong> Try to debug the function so that it passes <em>both</em> assertions.</p>
-<p>You&#39;ll probably find that a bug which doesn&#39;t trigger one assertion may trigger the other. </p>
+<p>You&#39;ll probably find that a bug which doesn&#39;t trigger one assertion may trigger the other. Part of writing good tests is thinking of example inputs that could catch different kinds of problems.</p>
 </div>
 </div>
 </div>
