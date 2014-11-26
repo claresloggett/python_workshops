@@ -1770,7 +1770,7 @@ LEPH
 EPHA
 PHAN
 HANT
-</code></pre><p>Finding all the k-mers in a set of DNA sequences is useful in several bioinformatics applications. One of the best known uses is to perform genome assembly by constructing a de Bruijn graph.</p>
+</code></pre><p>Finding all the k-mers in a set of DNA sequences is useful in several bioinformatics applications. One of the best-known uses is to perform genome assembly by constructing a de Bruijn graph.</p>
 </div>
 </div>
 </div>
@@ -1791,17 +1791,18 @@ HANT
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let&#39;s start from a basic solution to the k-mer counting problem. If you&#39;ve done the introductory workshop, you might have come up with a similar solution yourself. </p>
 <p><strong>Exercise:</strong> If you have not already done so in the introductory workshop, try to solve this problem before you continue. Write a function called <code>count_kmers</code> which takes as input a string and an integer k, and returns a dictionary as output. The keys of the dictionary should be all the k-mers that were seen, and the values should be the number of times each k-mer occurs in the string. Make sure to give your function a docstring! You&#39;ll be able to use your solution as the basis for the rest of the workshop. </p>
-<p>For example, your function should give the following result when called:</p>
+<p>For example, your function should give the following result when called with these arguments:</p>
 <pre><code class="language-python">count_kmers(<span class="string">"GATGAT"</span>,<span class="number">3</span>)
 {<span class="string">'ATG'</span>: <span class="number">1</span>, <span class="string">'GAT'</span>: <span class="number">2</span>, <span class="string">'TGA'</span>: <span class="number">1</span>}
 </code></pre>
-<p>and it should pass the following assertions:</p>
+<p>You can test it quickly as you&#39;re writing it by running the following assertions:</p>
 <pre><code class="language-python"><span class="keyword">assert</span> count_kmers(<span class="string">"GATGAT"</span>,<span class="number">3</span>)[<span class="string">"GAT"</span>]==<span class="number">2</span>
 <span class="keyword">assert</span> count_kmers(<span class="string">"GATGAT"</span>,<span class="number">3</span>)[<span class="string">"ATG"</span>]==<span class="number">1</span>
+<span class="keyword">assert</span> len(count_kmers(<span class="string">"GATGAT"</span>,<span class="number">3</span>))==<span class="number">3</span>
 <span class="keyword">assert</span> len(count_kmers(<span class="string">"GATGAT"</span>,<span class="number">5</span>))==<span class="number">2</span>
 </code></pre>
 <p>The solution is written below, so free to stop here and try to solve this, and to ask for help if you get stuck. Asking for hints is a much better way to develop your understanding than reading the solution.</p>
-<p>A couple of hints: you will need to understand string slicing to find the k-mers, and you will need to think about where the starting position of the last k-mer in the string is - this depends on the length of the string, which you can find with <code>len()</code>. Remember you can use help() to look at the documentation for built-in functions. You may also need to check whether a k-mer is already in the dictionary before you try to increment the count. </p>
+<p>A couple of hints: you will need to understand string slicing to find the k-mers, and you will need to think about where the starting position of the last k-mer in the string is. You may want the built-in function <code>len()</code>. Remember you can use <code>help()</code> to look at the documentation for built-in functions. You may also need to check whether a k-mer is already in the dictionary before you try to increment the count. </p>
 <p><strong>SPOILER ALERT:</strong> If you are new to programming, and would like to do the novice workshop, you might want to do it before looking at the solution below!</p>
 </div>
 </div>
@@ -1815,7 +1816,7 @@ HANT
 <ul>
 <li>start with an empty dictionary to hold our results</li>
 <li>find the length of the string L, and use L and k to work out how many k-mers there are in the string</li>
-<li>loop over the starting positions of the k-mers</li>
+<li>loop over all possible starting positions of the k-mers</li>
 <li>at each position, extract the k-mer by taking a slice of the string</li>
 <li>if the k-mer is not already in the dictionary, add it with a count of 0</li>
 <li>increment the count for this k-mer (if we just added it, it will now be 1)</li>
@@ -2678,8 +2679,13 @@ abbbZa&#96;&#96;a&#96;abaaba&#96;aaaaaaYYVV&#96;&#96;aaa^&#96;a_^Y^ZV&#96;][\V_Q
 TCGTACCGTAAGGAACGGTGGACTGGATACGAGTGAGAATGTTGGCATCAGTAGCGCGATGTGGGTGAGAATCCCCCAG
 +
 abaabbbb_^__Y_W`_^U[\_a`^^BaY`\\\\__Z[\\^[]ZW\R[BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
-</code></pre><p>The first line, starting with <code>@</code>, is the name of the sequence. The second line is the DNA sequence itself, which is what we&#39;re interested in. The third line may repeat the read name, and the fourth line is the ascii-encoded quality scores showing how confident we are that the sequencing experiment gave the correct results. </p>
-<p>We will ignore the quality scores for our purposes, and just read in the DNA sequences. This means that out of every four lines, we&#39;d like to just store the second. We&#39;d like to end up with a list of five DNA sequence strings.</p>
+</code></pre><ul>
+<li>The first line, which must start with <code>@</code>, is the name of the sequence. It often gives information about the experiment. </li>
+<li>The second line is the DNA sequence itself, which is what we&#39;re interested in. </li>
+<li>The third line must start with <code>+</code> and may repeat the read name</li>
+<li>The fourth line is the ascii-encoded quality scores showing how confident we are that the sequencing experiment gave the correct results. </li>
+</ul>
+<p>We will ignore the quality scores for our purposes, and just read in the DNA sequences. This means that out of every four lines, we&#39;d like to just store the second. From our <code>example_reads.fastq</code>, we&#39;d like to end up with a list of five DNA sequence strings.</p>
 </div>
 </div>
 </div>
